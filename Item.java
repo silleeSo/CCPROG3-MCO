@@ -1,4 +1,5 @@
 public class Item {
+    //FINISHED PROBABLY
     private String name;
     private double price;
     private double calorieCount;

@@ -1,5 +1,6 @@
 
 public class regularVM {
+    //I NEED HELP IM KINDA CONFUSED
     int numberOfSlots;
     final int NUM_OF_SLOTS = 8;
     Slot[] slots = new Slot[NUM_OF_SLOTS];

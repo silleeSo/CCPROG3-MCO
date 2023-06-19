@@ -1,5 +1,5 @@
 public class Money {
-    
+    //JIC WE WANT TO USE A MONEY CLASS, DISREGARD IF NOT
     int quantity;
     final double VALUE;
     public Money(int quantity, double value){

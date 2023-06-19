@@ -1,6 +1,7 @@
 
 
 public class Slot {
+    //KINDA FINISHED ISH TOO
     final int QUANTITY_LIMIT = 10;
     final int SLOT_NUMBER;
     private int quantityStored;
