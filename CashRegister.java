@@ -7,8 +7,7 @@ public class CashRegister {
     //Money[] money = new Money[8];
      //TO DO: IMPLEMENT THE CONSTRUCTOR AND THE REST OF THE METHODS
 
-    public CashRegister()
-    {
+    public CashRegister() {
         /*IM NOT SURE IF KASAMA CENTAVOES RAGHH
         centavoes.put(5, 0);
         centavoes.put(25, 0);
@@ -24,23 +23,25 @@ public class CashRegister {
         bills.put(200, 0);
         bills.put(500, 0);
         bills.put(1000, 0);
-
-       
-        
     }
+
     public HashMap<Integer, Integer> getChangeDenomination(){
         HashMap<Integer, Integer> d = new HashMap<>();
         //I NEED HALP 
+        //abe: IDK WHAT TO DO EITHER
         return d;
     }
+
     public void addBillQty(int qty, int key){
         int totalQty = qty + bills.get(key);
         bills.put(key, totalQty);
     }
+
     public void addCoinQty(int qty, int key){
         int totalQty = qty + coins.get(key);
         coins.put(key, totalQty);
     }
+
     public void addCentavoeQty(int qty, int key){
         int totalQty = qty + centavoes.get(key);
         centavoes.put(key, totalQty);
