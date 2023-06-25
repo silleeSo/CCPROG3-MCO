@@ -1,17 +1,23 @@
 public class Slot {
     //KINDA FINISHED ISH TOO
-    final int QUANTITY_LIMIT = 10;
-    final int SLOT_NUMBER;
+    private static final int QUANTITY_LIMIT = 10;
+    private final int SLOT_NUMBER;
     private int quantityStored;
     private Item itemInSlot;
+    private int startQtyRestock;
+    private int endQtyRestock;
 
     public Slot(int slotNum, Item itemToStore, int quantityStored) {
         this.SLOT_NUMBER = slotNum;
-        if(quantityStored >= 10)
+        if(quantityStored <= 10)
             this.quantityStored = quantityStored;
         else
             this.quantityStored = 10;
         this.itemInSlot = itemToStore;
+    }
+
+    public Slot(int slotNum, Item itemToStore) {
+        this(slotNum, itemToStore, 0);
     }
 
     public int getQuantityStored() {
@@ -24,6 +30,22 @@ public class Slot {
 
     public int getSlotNum() {
         return SLOT_NUMBER;
+    }
+
+    public int getStartQtyRestock() {
+        return startQtyRestock;
+    }
+
+    public int getEndQtyRestock() {
+        return endQtyRestock;
+    }
+
+    public void setQuantityStored(int quantityStored) {
+        this.quantityStored = quantityStored;
+    }
+
+    public void setItemInSlot(Item itemInSlot) {
+        this.itemInSlot = itemInSlot;
     }
 
     public boolean restockSlot(int qty) {

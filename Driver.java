@@ -31,16 +31,11 @@ public class Driver {
 
     //TO DO: IMPLEMENT createRegularVM()
     public static void createRegularVM() {
-        Scanner scanner = new Scanner(System.in);
-        int numberOfSlots = scanner.nextInt();
-        Driver driver = new Driver();
-        driver.regularVMs.add(new regularVM(numberOfSlots));
-        scanner.close();
+
     }
 
      //TO DO: IMPLEMENT testVM()
     public static void testVM(){
 
     }
-    
 }
