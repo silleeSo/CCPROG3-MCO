@@ -57,7 +57,7 @@ public class RegularVM {
     }
 
     public void setSlotItem(int index, Item item) {
-        if(!isItemDuplicate(item))
+        if(!isItemDuplicate(item) && index <= NUM_SLOTS - 1)
             slots[index].setItemInSlot(item);
     }
 
@@ -66,7 +66,7 @@ public class RegularVM {
     }
 
     public void restockSlot(int index, int qty) {
-        slots[index].restockSlot(qty);
+        slots[index].restockItem(qty);
     }
 
     public boolean isItemDuplicate(Item item) {
@@ -77,9 +77,9 @@ public class RegularVM {
         return false;
     }
 
-    public void displaySlots() {
+    public void displayVMSlots() {
         for(Slot slot : slots)
-            System.out.println(slot.toString());
+            slot.displaySlotInfo();
     }
 
     public void displayInventory() {

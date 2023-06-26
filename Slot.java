@@ -1,23 +1,19 @@
 public class Slot {
     //KINDA FINISHED ISH TOO
     private final int QUANTITY_LIMIT = 10;
-    private final int SLOT_NUMBER;
     private int quantityStored;
     private Item itemInSlot;
-    private int startQtyRestock;
-    private int endQtyRestock;
 
-    public Slot(int slotNum, Item itemToStore, int quantityStored) {
-        this.SLOT_NUMBER = slotNum;
-        if(quantityStored >= 10)
+    public Slot(Item itemToStore, int quantityStored) {
+        if(quantityStored <= 10)
             this.quantityStored = quantityStored;
         else
-            this.quantityStored = 10;
+            this.quantityStored = 0;
         this.itemInSlot = itemToStore;
     }
 
-    public Slot(int slotNum, Item itemToStore) {
-        this(slotNum, itemToStore, 0);
+    public Slot(Item itemToStore) {
+        this(itemToStore, 0);
     }
 
     public int getQuantityStored() {
@@ -28,18 +24,6 @@ public class Slot {
         return itemInSlot;
     }
 
-    public int getSlotNum() {
-        return SLOT_NUMBER;
-    }
-
-    public int getStartQtyRestock() {
-        return startQtyRestock;
-    }
-
-    public int getEndQtyRestock() {
-        return endQtyRestock;
-    }
-
     public void setQuantityStored(int quantityStored) {
         this.quantityStored = quantityStored;
     }
@@ -48,13 +32,18 @@ public class Slot {
         this.itemInSlot = itemInSlot;
     }
 
-    public boolean restockSlot(int qty) {
+    public boolean restockItem(int qty) {
         int total = qty + quantityStored;
         if (!isFull() && total <= QUANTITY_LIMIT){
             quantityStored = total;
             return true;
         }
         return false;
+    }
+
+    public void replaceItemInSlot(Item item) {
+        if(!item.equals(itemInSlot) && quantityStored == 0)
+            this.itemInSlot = item;
     }
 
     public boolean isFull() {
@@ -69,8 +58,7 @@ public class Slot {
         return false;
     }
 
-    public void displayInfo() {
-        System.out.println("- Slot number " + SLOT_NUMBER + " -");
+    public void displaySlotInfo() {
         System.out.println("Item: " + itemInSlot.getName());
         System.out.println("Quantity: " + quantityStored);
     }
