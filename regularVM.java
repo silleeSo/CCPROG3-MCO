@@ -1,33 +1,17 @@
 public class RegularVM {
     //I NEED HELP IM KINDA CONFUSED
-    private int numberOfSlots;
-    private static final int MIN_SLOTS = 8;
-    private Slot[] slots = new Slot[MIN_SLOTS];
+    private final int NUM_SLOTS = 8;
+    private Slot[] slots;
     private CashRegister cashReg;
 
     // abe: hopefully these constructors arent too many
     public RegularVM(int[] denominations) {
-        this(denominations, 8);
-    }
-
-    public RegularVM(int[] denominations, int numberOfSlots) {
-        if(numberOfSlots >= 8)
-            this.numberOfSlots = numberOfSlots;
-        else
-            this.numberOfSlots = 8;
+        slots = new Slot[NUM_SLOTS];
         cashReg = new CashRegister(denominations);
     }
 
-    public RegularVM(int numberOfSlots) {
-        if(numberOfSlots >= 8)
-            this.numberOfSlots = numberOfSlots;
-        else
-            this.numberOfSlots = 8;
-        cashReg = new CashRegister();
-    }
-
     public RegularVM() {
-        this.numberOfSlots = 8;
+        slots = new Slot[NUM_SLOTS];
         cashReg = new CashRegister();
     }
     
@@ -43,11 +27,6 @@ public class RegularVM {
                 System.out.printf("Dispensed item: %s\n", item.toString());
                 slot.setQuantityStored(slot.getQuantityStored() - 1);
             }
-    }
-
-    // abe: what is this supposed to do? System.out.println?
-    public void dispenseChange() {
-
     }
 
     public void refillMoney(int[] denominations) {
