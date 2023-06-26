@@ -3,16 +3,21 @@ import java.util.HashMap;
 public class CashRegister {
     HashMap<Integer, Integer> bills = new HashMap<>();
     HashMap<Integer, Integer> coins = new HashMap<>();
-    HashMap<Integer, Integer> centavoes = new HashMap<>();
-    //Money[] money = new Money[8];
-     //TO DO: IMPLEMENT THE CONSTRUCTOR AND THE REST OF THE METHODS
 
     public CashRegister() {
-        /*IM NOT SURE IF KASAMA CENTAVOES RAGHH
-        centavoes.put(5, 0);
-        centavoes.put(25, 0);
-        centavoes.put(50, 0);*/
+        coins.put(1, 0);
+        coins.put(5, 0);
+        coins.put(10, 0);
 
+        bills.put(20, 0);
+        bills.put(50, 0);
+        bills.put(100, 0);
+        bills.put(200, 0);
+        bills.put(500, 0);
+        bills.put(1000, 0);
+    }
+
+    public CashRegister(int[] denominations) {
         coins.put(1, 0);
         coins.put(5, 0);
         coins.put(10, 0);
@@ -41,10 +46,4 @@ public class CashRegister {
         int totalQty = qty + coins.get(key);
         coins.put(key, totalQty);
     }
-
-    public void addCentavoeQty(int qty, int key){
-        int totalQty = qty + centavoes.get(key);
-        centavoes.put(key, totalQty);
-    }
-   
 }
