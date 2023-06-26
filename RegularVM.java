@@ -5,14 +5,10 @@ public class RegularVM {
     private CashRegister cashReg;
 
     // abe: hopefully these constructors arent too many
-    public RegularVM(int[] denominations) {
-        slots = new Slot[NUM_SLOTS];
-        cashReg = new CashRegister(denominations);
-    }
-
     public RegularVM() {
         slots = new Slot[NUM_SLOTS];
         cashReg = new CashRegister();
+        
     }
     
     public void purchaseItem(int slotNum) {
@@ -20,7 +16,9 @@ public class RegularVM {
             if(slot.getSlotNum() == slotNum && !slot.isEmpty())
                 slot.setQuantityStored(slot.getQuantityStored() - 1);
     }
-
+    public void initializeSlot(int index, Item item, int qty) {
+        slots[index] = new Slot(index, item, qty);
+    }
     public void dispenseItem(Item item) {
         for(Slot slot : slots)
             if(slot.getItemInSlot().equals(item) && !slot.isEmpty()) {
@@ -28,10 +26,9 @@ public class RegularVM {
                 slot.setQuantityStored(slot.getQuantityStored() - 1);
             }
     }
-
     public void refillMoney(int[] denominations) {
         // abe: sorry idk how to deal with this QwQ
-        cashReg = new CashRegister(denominations);
+        cashReg.addMoney(denominations);
     }
 
     public void swapSlotItems(int slotNum1, int slotNum2) {
@@ -60,7 +57,7 @@ public class RegularVM {
         if(!isItemDuplicate(item) && index <= NUM_SLOTS - 1)
             slots[index].setItemInSlot(item);
     }
-
+    
     public void setItemQuantity(int index, int quantity) {
         slots[index].setQuantityStored(quantity);
     }
@@ -77,14 +74,33 @@ public class RegularVM {
         return false;
     }
 
-    public void displayVMSlots() {
-        for(Slot slot : slots)
-            slot.displaySlotInfo();
+    public void displaySlots() {
+       /*  for(Slot slot : slots)
+            System.out.println(slot.toString());*/
+            
+            for (int i = 0; i < 8; i++){
+                 Slot slot = slots[i];
+                slot.displayInfo();
+            }
     }
 
     public void displayInventory() {
         for(Slot slot : slots) {
             System.out.println(slot.getItemInfo());
         }
+    }
+    public void displayMoneyQty(){
+        int[] moneyQty = cashReg.getMoneyQty();
+
+        System.out.println("--MONEY STORED--");
+        System.out.println("1 peso coins: " + moneyQty[0]);
+        System.out.println("5 peso coins: " + moneyQty[1]);
+        System.out.println("10 peso coins: " + moneyQty[2]);
+        System.out.println("20 peso bills: " + moneyQty[3]);
+        System.out.println("50 peso bills: " + moneyQty[4]);
+        System.out.println("100 peso bills: " + moneyQty[5]);
+        System.out.println("200 peso bills: " + moneyQty[6]);
+        System.out.println("500 peso bills: " + moneyQty[7]);
+        System.out.println("1000 peso bills: " + moneyQty[8]);
     }
 }

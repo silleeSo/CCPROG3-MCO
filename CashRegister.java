@@ -13,7 +13,7 @@ public class CashRegister{
     }
 
     //accepts an integer array containing quantity of coins/bills and adds it to current qty (calls addBill)
-    private void addMoney(int[] moneyQty){ 
+    public void addMoney(int[] moneyQty){ 
         addBill(1, moneyQty[0]);
         addBill(5, moneyQty[1]);
         addBill(10, moneyQty[2]);
@@ -26,13 +26,13 @@ public class CashRegister{
     }
 
     //adds to the qty of a single type of coin or bill
-    private void addBill(int key, int qty){
+    public void addBill(int key, int qty){
         int currentQty = money.get(key);
         money.put(key, currentQty + qty);
     }
 
     //returns an integer array containing the qty of each type of bill/coin
-    private int[] getMoneyQty(){
+    public int[] getMoneyQty(){
         int[] qty = new int[9];
 
         qty[0] += money.get(1);
@@ -50,7 +50,7 @@ public class CashRegister{
     }
 
     //gets the denomination using a given key (type of bill) and the total Amount to achieve
-    private int getDenominationForKey(int key, int totalAmount) {
+    public int getDenominationForKey(int key, int totalAmount) {
         
         HashMap<Integer, Integer> tempHash = money;
         int billsInChange = 0;
@@ -68,7 +68,7 @@ public class CashRegister{
         return tempNum;     // return
     }
     //computes for the total change based on denomination hashmap, can be used for comparison and checking
-    private int computeTotalChange(){
+    public int computeTotalChange(){
         int totalChange = 0;
         
         totalChange += denominations.get(1)*1;
@@ -84,7 +84,7 @@ public class CashRegister{
     }
     //subtotal = the amount charged to the user, amountInserted, the amount user gives
     // this class updates the hashmap denominations
-    private void computeDenominations(int subtotal, int amountInserted){
+    public void computeDenominations(int subtotal, int amountInserted){
         int change = amountInserted - subtotal;
         //what if the user inserts less?? = call boolean is
         //get denominations, check money hash
@@ -106,7 +106,7 @@ public class CashRegister{
     }
 
     //resets all denominations to zero; used after completing a purchase
-    private void resetDenominations(){
+    public void resetDenominations(){
         denominations.put(1, 0);
         denominations.put(5, 0);
         denominations.put(10, 0);
@@ -119,7 +119,7 @@ public class CashRegister{
     }
 
     //clears the values of money hashmap (sets qty of all bills/coins to 0)
-    private void clearCashRegister(){
+    public void clearCashRegister(){
         money.put(1, 0);
         money.put(5, 0);
         money.put(10, 0);
@@ -134,7 +134,7 @@ public class CashRegister{
 
     //checks if change is enough, params subtotal(charged sa user) and amount (given by user)
     //assume that amount  > subtotal is confirmed
-    private boolean isChangeEnough(int subtotal, int amountInserted){
+    public boolean isChangeEnough(int subtotal, int amountInserted){
         int change = amountInserted - subtotal;
         int totalChange = computeTotalChange();
         if (totalChange < change)
@@ -142,7 +142,7 @@ public class CashRegister{
         return true;
     }
     //checks if cash reg is empty
-    private boolean isCashRegEmpty(){
+    public boolean isCashRegEmpty(){
         int total = 0;
         total += money.get(1);
         total += money.get(5);
@@ -158,20 +158,20 @@ public class CashRegister{
         return false;
     }
     //checks if amount inserted by user is enough to cover his subtotal
-    private boolean isAmountInsertedEnough(int subtotal, int amount){
+    public boolean isAmountInsertedEnough(int subtotal, int amount){
         if (amount < subtotal)
             return false;
         return true;
     }
     //displays the denomination for 1 type of bill/coin; used in displayTotalChange
-    private void displayBillDenomination(double key, int qty){
+    public void displayBillDenomination(double key, int qty){
         if (qty > 0)
             //System.out.println(key + " * " + qty + " = " + key*qty);
             System.out.println("Dispensing " + qty + "*" + key + "pesos...");
     }
 
     //displays the total change
-    private void displayTotalChange(){
+    public void displayTotalChange(){
 
         displayBillDenomination(1, denominations.get(1));
         displayBillDenomination(5, denominations.get(5));
