@@ -3,31 +3,53 @@ import java.util.HashMap;
 public class CashRegister{
     private HashMap<Integer, Integer> money;
     private HashMap<Integer, Integer> denominations;
-
+    //constructor: instantiates hashmaps and initializes everything to zero
     public CashRegister(){
         money = new HashMap<>();
         denominations = new HashMap<>();
-        money.put(1, 5);
-        money.put(5, 5);
-        money.put(10, 5);
-        money.put(20, 5);
-        money.put(50, 5);
-        money.put(100, 5);
-        money.put(200, 5);
-        money.put(500, 5);
-        money.put(1000, 5);
 
-        denominations.put(1, 0);
-        denominations.put(5, 0);
-        denominations.put(10, 0);
-        denominations.put(20, 0);
-        denominations.put(50, 0);
-        denominations.put(100, 0);
-        denominations.put(200, 0);
-        denominations.put(500, 0);
-        denominations.put(1000, 0);
+        clearCashRegister();
+        resetDenominations();
     }
 
+    //accepts an integer array containing quantity of coins/bills and adds it to current qty (calls addBill)
+    private void addMoney(int[] moneyQty){ 
+        addBill(1, moneyQty[0]);
+        addBill(5, moneyQty[1]);
+        addBill(10, moneyQty[2]);
+        addBill(20, moneyQty[3]);
+        addBill(50, moneyQty[4]);
+        addBill(100, moneyQty[5]);
+        addBill(200, moneyQty[6]);
+        addBill(500, moneyQty[7]);
+        addBill(1000, moneyQty[8]);
+    }
+
+    //adds to the qty of a single type of coin or bill
+    private void addBill(int key, int qty){
+        int currentQty = money.get(key);
+        money.put(key, currentQty + qty);
+    }
+
+    //returns an integer array containing the qty of each type of bill/coin
+    private int[] getMoneyQty(){
+        int[] qty = new int[9];
+
+        qty[0] += money.get(1);
+        qty[1] += money.get(5);
+        qty[2] += money.get(10);
+        qty[3] += money.get(20);
+        qty[4] += money.get(50);
+        qty[5] += money.get(100);
+        qty[6] += money.get(200);
+        qty[7] += money.get(500);
+        qty[8] += money.get(1000);
+
+        return qty;
+        
+    }
+
+    //gets the denomination using a given key (type of bill) and the total Amount to achieve
     private int getDenominationForKey(int key, int totalAmount) {
         
         HashMap<Integer, Integer> tempHash = money;
@@ -45,6 +67,7 @@ public class CashRegister{
         money = tempHash;   // set moeny hash to updated (or not) money hash 
         return tempNum;     // return
     }
+    //computes for the total change based on denomination hashmap, can be used for comparison and checking
     private int computeTotalChange(){
         int totalChange = 0;
         
@@ -75,12 +98,14 @@ public class CashRegister{
         change = getDenominationForKey(10, change);
         change = getDenominationForKey(5, change);
         change = getDenominationForKey(1, change);
-        if (!isChangeEnough(change)){
+        if (!isChangeEnough(subtotal, amountInserted)){
             resetDenominations();
             money = originalMoney;
         }
         //displayTotalChange();
     }
+
+    //resets all denominations to zero; used after completing a purchase
     private void resetDenominations(){
         denominations.put(1, 0);
         denominations.put(5, 0);
@@ -91,21 +116,61 @@ public class CashRegister{
         denominations.put(200, 0);
         denominations.put(500, 0);
         denominations.put(1000, 0);
+    }
+
+    //clears the values of money hashmap (sets qty of all bills/coins to 0)
+    private void clearCashRegister(){
+        money.put(1, 0);
+        money.put(5, 0);
+        money.put(10, 0);
+        money.put(20, 0);
+        money.put(50, 0);
+        money.put(100, 0);
+        money.put(200, 0);
+        money.put(500, 0);
+        money.put(1000, 0);
     
     }
 
-    private boolean isChangeEnough(int amount){
-        
+    //checks if change is enough, params subtotal(charged sa user) and amount (given by user)
+    //assume that amount  > subtotal is confirmed
+    private boolean isChangeEnough(int subtotal, int amountInserted){
+        int change = amountInserted - subtotal;
         int totalChange = computeTotalChange();
-        if (totalChange < amount)
+        if (totalChange < change)
             return false;
         return true;
     }
+    //checks if cash reg is empty
+    private boolean isCashRegEmpty(){
+        int total = 0;
+        total += money.get(1);
+        total += money.get(5);
+        total += money.get(10);
+        total += money.get(20);
+        total += money.get(50);
+        total += money.get(100);
+        total += money.get(200);
+        total += money.get(500);
+        total += money.get(1000);
+        if (total == 0)
+            return true;
+        return false;
+    }
+    //checks if amount inserted by user is enough to cover his subtotal
+    private boolean isAmountInsertedEnough(int subtotal, int amount){
+        if (amount < subtotal)
+            return false;
+        return true;
+    }
+    //displays the denomination for 1 type of bill/coin; used in displayTotalChange
     private void displayBillDenomination(double key, int qty){
         if (qty > 0)
             //System.out.println(key + " * " + qty + " = " + key*qty);
             System.out.println("Dispensing " + qty + "*" + key + "pesos...");
     }
+
+    //displays the total change
     private void displayTotalChange(){
 
         displayBillDenomination(1, denominations.get(1));
@@ -119,10 +184,6 @@ public class CashRegister{
         displayBillDenomination(1000, denominations.get(1000));
     }
 
-    private boolean isAmountInsertedEnough(int subtotal, int amount){
-        if (amount < subtotal)
-            return false;
-        return true;
-    }
+    
 
 }
