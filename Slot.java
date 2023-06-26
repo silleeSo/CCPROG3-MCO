@@ -1,6 +1,6 @@
 public class Slot {
     //KINDA FINISHED ISH TOO
-    private static final int QUANTITY_LIMIT = 10;
+    private final int QUANTITY_LIMIT = 10;
     private final int SLOT_NUMBER;
     private int quantityStored;
     private Item itemInSlot;
@@ -9,7 +9,7 @@ public class Slot {
 
     public Slot(int slotNum, Item itemToStore, int quantityStored) {
         this.SLOT_NUMBER = slotNum;
-        if(quantityStored <= 10)
+        if(quantityStored >= 10)
             this.quantityStored = quantityStored;
         else
             this.quantityStored = 10;

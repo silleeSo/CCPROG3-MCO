@@ -4,7 +4,7 @@ import java.util.Scanner;
 //      UNFINISHED!!
 public class Driver {
      
-    ArrayList<regularVM> regularVMs = new ArrayList<regularVM>(); 
+    ArrayList<RegularVM> regularVMs = new ArrayList<RegularVM>(); 
     
     public static void main (String args[]){
         int input = 0;
