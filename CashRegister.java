@@ -26,7 +26,7 @@ public class CashRegister{
     }
 
     //adds to the qty of a single type of coin or bill
-    private void addBill(int key, int qty){
+    public void addBill(int key, int qty){
         int currentQty = money.get(key);
         money.put(key, currentQty + qty);
     }
