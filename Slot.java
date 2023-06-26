@@ -9,10 +9,10 @@ public class Slot {
 
     public Slot(int slotNum, Item itemToStore, int quantityStored) {
         this.SLOT_NUMBER = slotNum;
-        if(quantityStored >= 10)
-            this.quantityStored = quantityStored;
-        else
+        if(quantityStored > 10)
             this.quantityStored = 10;
+        else
+            this.quantityStored = quantityStored;
         this.itemInSlot = itemToStore;
     }
 
@@ -72,6 +72,8 @@ public class Slot {
     public void displayInfo() {
         System.out.println("- Slot number " + SLOT_NUMBER + " -");
         System.out.println("Item: " + itemInSlot.getName());
+        System.out.println("Calories: " + itemInSlot.getCalories());
+        System.out.println("Calories: " + itemInSlot.getPrice());
         System.out.println("Quantity: " + quantityStored);
     }
 
