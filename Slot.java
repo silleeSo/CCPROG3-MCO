@@ -4,8 +4,7 @@ public class Slot {
     private int quantityStored;
     private Item itemInSlot;
 
-    public Slot(int slotNum, Item itemToStore, int quantityStored) {
-        this.SLOT_NUMBER = slotNum;
+    public Slot(Item itemToStore, int quantityStored) {
         if(quantityStored > 10)
             this.quantityStored = 10;
         else
@@ -59,11 +58,14 @@ public class Slot {
         return false;
     }
 
-    public void displaySlotInfo() {
-        System.out.println("Item: " + itemInSlot.getName());
-        System.out.println("Calories: " + itemInSlot.getCalories());
-        System.out.println("Calories: " + itemInSlot.getPrice());
-        System.out.println("Quantity: " + quantityStored);
+    @Override
+    public String toString() {
+        String item = "Item: " + itemInSlot.getName() + "\n";
+        String calories = "Calories: " + itemInSlot.getCalories() + "\n";
+        String price = "Price: " + itemInSlot.getPrice() + "\n";
+        String quantity = "Quantity: " + quantityStored + "\n";
+
+        return item + calories + price + quantity;
     }
 
     public String getItemInfo() {

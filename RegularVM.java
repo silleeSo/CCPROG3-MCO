@@ -1,55 +1,44 @@
 public class RegularVM {
-    //I NEED HELP IM KINDA CONFUSED
     private final int NUM_SLOTS = 8;
     private Slot[] slots;
     private CashRegister cashReg;
 
-    // abe: hopefully these constructors arent too many
     public RegularVM() {
         slots = new Slot[NUM_SLOTS];
         cashReg = new CashRegister();
-        
     }
     
-    public void purchaseItem(int slotNum) {
-        for(Slot slot : slots)
-            if(slot.getSlotNum() == slotNum && !slot.isEmpty())
-                slot.setQuantityStored(slot.getQuantityStored() - 1);
+    public void purchaseItem(int index) {
+        if(index <= slots.length && slots[index] != null && !slots[index].isEmpty()) {
+            slots[index].setQuantityStored(slots[index].getQuantityStored() - 1);
+            System.out.println(slots[index].getItemInfo());
+        }
     }
+
     public void initializeSlot(int index, Item item, int qty) {
-        slots[index] = new Slot(index, item, qty);
+        slots[index] = new Slot(item, qty);
     }
+
     public void dispenseItem(Item item) {
         for(Slot slot : slots)
-            if(slot.getItemInSlot().equals(item) && !slot.isEmpty()) {
+            if(slot != null && !slot.isEmpty() && slot.getItemInSlot().equals(item)) {
                 System.out.printf("Dispensed item: %s\n", item.toString());
                 slot.setQuantityStored(slot.getQuantityStored() - 1);
             }
     }
+
     public void refillMoney(int[] denominations) {
-        // abe: sorry idk how to deal with this QwQ
         cashReg.addMoney(denominations);
     }
 
-    public void swapSlotItems(int slotNum1, int slotNum2) {
-        Item temp1 = null;
-        Item temp2 = null;
-        //if slotNum cant match a slot, it is swapped with null
+    public void swapSlotItems(int index1, int index2) {
+        Item temp = null;
 
-        for(Slot slot : slots) {
-            if(slot.getSlotNum() == slotNum1)
-                temp1 = slot.getItemInSlot();
-
-            if(slot.getSlotNum() == slotNum2)
-                temp2 = slot.getItemInSlot();
-        }
-
-        for(Slot slot : slots) {
-            if(slot.getSlotNum() == slotNum1)
-                slot.setItemInSlot(temp2);
-
-            if(slot.getSlotNum() == slotNum2)
-                slot.setItemInSlot(temp1);
+        if(index1 <= slots.length && slots[index1] != null &&
+           index2 <= slots.length && slots[index2] != null) {
+            temp = slots[index1].getItemInSlot();
+            slots[index1].setItemInSlot(slots[index2].getItemInSlot());
+            slots[index2].setItemInSlot(temp);
         }
     }
 
@@ -59,7 +48,8 @@ public class RegularVM {
     }
     
     public void setItemQuantity(int index, int quantity) {
-        slots[index].setQuantityStored(quantity);
+        if(quantity <= 10)
+            slots[index].setQuantityStored(quantity);
     }
 
     public void restockSlot(int index, int qty) {
@@ -75,20 +65,15 @@ public class RegularVM {
     }
 
     public void displaySlots() {
-       /*  for(Slot slot : slots)
-            System.out.println(slot.toString());*/
-            
-            for (int i = 0; i < 8; i++){
-                 Slot slot = slots[i];
-                slot.displayInfo();
-            }
+        for(Slot slot : slots)
+            System.out.println(slot.toString());
     }
 
     public void displayInventory() {
-        for(Slot slot : slots) {
+        for(Slot slot : slots) 
             System.out.println(slot.getItemInfo());
-        }
     }
+
     public void displayMoneyQty(){
         int[] moneyQty = cashReg.getMoneyQty();
 

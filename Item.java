@@ -1,5 +1,4 @@
 public class Item {
-    //FINISHED PROBABLY
     private String name;
     private double price;
     private double calorieCount;
@@ -10,25 +9,25 @@ public class Item {
         this.calorieCount = calorieCount;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
-    public double getPrice(){
+
+    public double getPrice() {
         return price;
     }
-    public double getCalories(){
+
+    public double getCalories() {
         return calorieCount;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return name + " - PHP" + price + " - " + calorieCount + " calories";
     }
 
-    
-    public boolean equals(Item item){
+    public boolean equals(Item item) {
         return item.name == name && item.price == price && item.calorieCount == calorieCount;
 
     }
 }
-
