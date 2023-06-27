@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Scanner;
 /* 
@@ -118,7 +117,6 @@ public class Driver {
        
     }
   
-
      //TO DO: IMPLEMENT testVM()
     public static void testVM(){
 
