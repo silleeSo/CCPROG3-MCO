@@ -123,9 +123,7 @@ public class Driver {
         }while (!regVM.isSlotNumValid(input));
         moneyQty = askForMoneyQty(cashReg);
 
-        cashReg.computeInsertedAmount(moneyQty); //add inserted money to cash reg
-        regVM.dispenseItem(input);
-        cashReg.displayTotalChange();
+        regVM.processPurchase(moneyQty, input-1);
 
         regularVMs.add(index, regVM);
 

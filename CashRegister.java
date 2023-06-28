@@ -3,7 +3,7 @@ import java.util.HashMap;
 public class CashRegister{
     private HashMap<Integer, Integer> money;
     private HashMap<Integer, Integer> denominations;
-    private int insertedAmnt;
+    
     //constructor: instantiates hashmaps and initializes everything to zero
     public CashRegister(){
         money = new HashMap<>();
@@ -31,7 +31,24 @@ public class CashRegister{
         int currentQty = money.get(key);
         money.put(key, currentQty + qty);
     }
+    public void deductChangeFromMoney(){ 
+        
+        deductBill(1, denominations.get(1));
+        deductBill(5, denominations.get(5));
+        deductBill(10, denominations.get(10));
+        deductBill(20, denominations.get(20));
+        deductBill(50, denominations.get(50));
+        deductBill(100, denominations.get(100));
+        deductBill(200, denominations.get(200));
+        deductBill(500, denominations.get(500));
+        deductBill(1000, denominations.get(1000));
+    }
 
+    //deducts the qty of a single type of coin or bill
+    public void deductBill(int key, int qty){
+        int currentQty = money.get(key);
+        money.put(key, currentQty - qty);
+    }
     //returns an integer array containing the qty of each type of bill/coin
     public int[] getMoneyQty(){
         int[] qty = new int[9];
@@ -49,6 +66,23 @@ public class CashRegister{
         return qty;
         
     }
+    
+    /*public int[] getChangeQty(){
+        int[] qty = new int[9];
+
+        qty[0] += money.get(1);
+        qty[1] += money.get(5);
+        qty[2] += money.get(10);
+        qty[3] += money.get(20);
+        qty[4] += money.get(50);
+        qty[5] += money.get(100);
+        qty[6] += money.get(200);
+        qty[7] += money.get(500);
+        qty[8] += money.get(1000);
+
+        return qty;
+        
+    }*/
     public boolean isMoneyQtyValid(int qty){
         if (qty < 0)
             return false;
@@ -103,15 +137,15 @@ public class CashRegister{
         totalChange += denominations.get(1000)*1000;
         return totalChange;
     }
-    public void computeInsertedAmount(int[] inserted){
-        insertedAmnt = 0;
+    public int computeInsertedAmount(int[] inserted){
+        int insertedAmnt = 0;
        
         for (int i = 0; i < 9; i++)
             insertedAmnt += inserted[i];
-    }
-    public int getInsertedAmount(){
         return insertedAmnt;
+        
     }
+    
     //subtotal = the amount charged to the user, amountInserted, the amount user gives
     // this class updates the hashmap denominations
     public void computeFinalDenominations(int subtotal, int amountInserted){
@@ -209,8 +243,7 @@ public class CashRegister{
     }
 
     //displays the total change
-    public void displayTotalChange(){
-        if (insertedAmnt > 0){
+    public void dispenseTotalChange(){
             displayBillDenomination(1, denominations.get(1));
             displayBillDenomination(5, denominations.get(5));
             displayBillDenomination(10, denominations.get(10));
@@ -220,13 +253,26 @@ public class CashRegister{
             displayBillDenomination(200, denominations.get(200));
             displayBillDenomination(500, denominations.get(500));
             displayBillDenomination(1000, denominations.get(1000));
-        }
-        else{
-            System.out.println("Purchase Cancelled.");
-        }
+        
+           
+
+        //decrement
+        //add total to money, subtract denominations from
         
     }
-
+    public void displayAmount(int[] amount){
+        displayBillDenomination(1, amount[0]);
+        displayBillDenomination(5, amount[1]);
+        displayBillDenomination(10, amount[2]);
+        displayBillDenomination(20, amount[3]);
+        displayBillDenomination(50, amount[4]);
+        displayBillDenomination(100, amount[5]);
+        displayBillDenomination(200, amount[6]);
+        displayBillDenomination(500, amount[7]);
+        displayBillDenomination(1000, amount[8]);
+        
+    }
+    
     
 
 }

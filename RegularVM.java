@@ -8,7 +8,37 @@ public class RegularVM {
         slots = new Slot[NUM_SLOTS];
         cashReg = new CashRegister();
     }
-    
+    // denominations inserted,
+    public void processPurchase(int[] moneyInserted, int slotIndex){
+        Item item = getSlotItem(slotIndex);
+        int insertedAmnt = cashReg.computeInsertedAmount(moneyInserted);
+        cashReg.computeFinalDenominations((int)item.getPrice(), insertedAmnt);
+        
+        if (insertedAmnt == 0){
+            System.out.println("Purchase Cancelled.");
+        }
+        else if (cashReg.isChangeEnough((int)item.getPrice(), insertedAmnt) && insertedAmnt > 0)
+        {
+            cashReg.addMoney(moneyInserted);    //WORKING
+            dispenseItem(slotIndex);    //WORKING
+            cashReg.dispenseTotalChange();  //NOT WORKING
+            cashReg.deductChangeFromMoney();      //NOT WORKING
+            //add the inserted to money, subtract denomination from money
+        }
+        else{
+            System.out.println("Change not enough, dispensing inserted amount...");
+            cashReg.displayAmount(moneyInserted);
+        }
+        /*
+         * 1. compute amount inserted
+         * 2. compute final denominations(using itemPrice and inserted amnt)
+         * **if change is not enought tlga, magiging zero yung denominations
+         *      - if this happens, dispense the amount inserted, do not add to money, do not dispense item
+         * ** if denominations = 0 and amntinserted = 0, cancel, do not dispense item, 
+         * ** if denominations = 0 and amntinserted > 0, dispense amount inserted, do not dispense item
+         * **  and change is enough, dispense item, dispense change, add to money the excess
+         */
+    }
     public void purchaseItem(int index) {
         if(index <= slots.length && slots[index] != null && !slots[index].isEmpty()) {
             slots[index].decrementQtyStored();
@@ -40,13 +70,13 @@ public class RegularVM {
             }
     }
     public void dispenseItem(int slotIndex){
-        if (cashReg.getInsertedAmount() > 0){
+        
             Slot slot = slots[slotIndex];
             Item item = slot.getItemInSlot();
             System.out.println("Dispensing "+ item.toString() + "...");
             slot.decrementQtyStored();
             slots[slotIndex] = slot;
-        }
+        
         
     }
     public void refillMoney(int[] denominations) {
