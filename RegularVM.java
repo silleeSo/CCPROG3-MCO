@@ -26,7 +26,9 @@ public class RegularVM {
             //add the inserted to money, subtract denomination from money
             System.out.println("Total Change: PHP" + cashReg.computeTotalChange());
         }
-        else if (insertedAmnt == (int)item.getPrice())
+        else if (insertedAmnt == (int)item.getPrice()){
+            dispenseItem(slotIndex);
+        }
         else{
             System.out.println("Change not enough, dispensing inserted amount...");
             cashReg.displayAmount(moneyInserted);
@@ -106,11 +108,20 @@ public class RegularVM {
     }
     public void setItemQuantity(int index, int quantity) {
         if(quantity <= 10)
+        if(slots[index] != null && quantity <= 10) {
             slots[index].setQuantityStored(quantity);
-    }
 
+            if(slots[index].getQuantityStored() < quantity) {
+                int diff = quantity - slots[index].getQuantityStored();
+                slots[index].getInventory().registerRestock(diff);
+            }
+        }
+    }
+    
     public void restockSlot(int index, int qty) {
         slots[index].restockItem(qty);
+        if(slots[index] != null)
+            slots[index].restockItem(qty);
     }
 
     public boolean isItemDuplicate(Item item) {
@@ -126,6 +137,7 @@ public class RegularVM {
         
         return false;
     }
+
 
     public void displaySlots() {
         int i = 1;

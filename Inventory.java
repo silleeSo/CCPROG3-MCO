@@ -13,20 +13,18 @@ public class Inventory {
         this.qtySold = 0;
     }
 
-    public Inventory registerRestock(int qty) {
+    public void registerRestock(int qty) {
+        this.qtyStartInv = this.qtyEndInv;
         this.qtyEndInv += qty;
         this.qtyAdded = qty;
-        this.qtySold += qty;
-        Inventory temp = this;
-
-        this.qtyStartInv = this.qtyEndInv;
-        this.qtyAdded = 0;
-
-        return temp;
     }
 
     public void decrementQtyEnd() {
         this.qtyEndInv--;
+    }
+
+    public void incrementQtySold() {
+        this.qtySold++;
     }
 
     @Override

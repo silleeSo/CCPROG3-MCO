@@ -67,22 +67,18 @@ public class Driver {
             regularVM.initializeSlot(slotNum-1, itemPool[prodNum], itemQty); // create a slot given the specifications
             System.out.println("Continue?"); 
             input = askYesOrNo();
-
         }       
         if (input == 1 ){
             moneyQty = askForMoneyQty(regularVM.getCashRegister());     //Ask for money
             regularVM.refillMoney(moneyQty); //send integer array moneyQty to vending machine
-            
-        
+
             //display
             System.out.println("\033c");   //clear
             regularVM.displaySlots();
             regularVM.displayMoneyQty();
             System.out.println("Enter any number to continue...");
-            slotNum = keypad.nextInt();
-       
+            slotNum = keypad.nextInt();   
         }
-        
     }
   
      //TO DO: IMPLEMENT testVM()
@@ -127,12 +123,88 @@ public class Driver {
             regularVMs.add(index, regularVM);
         }
     }
+     /*
+ * restocking specific items, replace an item
+ * setting the price for the item type
+ * collecting payment
+ * replenishing money to provide change
+ * print summary of transactions qty x price
+ * display inv
+ */
+
+    public void maintenanceTest() {
+    
+        int menuChoice = 0;
+        while(menuChoice != 7) {
+            System.out.println("Select a maintenance feature: ");
+            System.out.println("1: Restocking an item");
+            System.out.println("2: Replacing an item");
+            System.out.println("3: Collecting payment");
+            System.out.println("4: Replenishing money");
+            System.out.println("5: Print summary of transactions");
+            System.out.println("6: Display inventory");
+
+            menuChoice = keypad.nextInt();
+            switch(menuChoice) {
+                case 1:
+                    int slotIndex = keypad.nextInt();
+                    keypad.nextLine();
+                    int itemQty = keypad.nextInt();
+                    regularVM.restockSlot(slotIndex, itemQty);
+                    break;
+                case 2:
+                    String name = keypad.nextLine();
+                    double price = keypad.nextDouble();
+                    keypad.nextLine();
+                    double calorieCount = keypad.nextDouble();
+                    keypad.nextLine();
+                    slotIndex = keypad.nextInt();
+                    keypad.nextLine();
+                    Item item = new Item(name, price, calorieCount);
+                    regularVM.replaceItemInSlot(slotIndex, item);
+                    break;
+                case 3:
+                    regularVM.getCashRegister().clearCashRegister();
+                    break;
+                case 4:
+                    int[] moneyQty = new int[9];
+                    moneyQty[0] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[1] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[2] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[3] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[4] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[5] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[6] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[7] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[8] = keypad.nextInt();
+                    keypad.nextLine();
+                    regularVM.getCashRegister().addMoney(moneyQty);
+                    break;
+                case 5:
+                    regularVM.displayAllInvInfo();
+                    break;
+                case 6:
+                    regularVM.displayAllInvQtySold();
+                    break;
+                case 7:
+                    break;
+            }
+        }
+    }
     public int askYesOrNo(){
         int input = 0;
         do{
-                System.out.println("0-no 1-yes"); 
-                input = keypad.nextInt();
-            }while(input != 0 && input != 1);
+            System.out.println("0-no 1-yes"); 
+            input = keypad.nextInt();
+        }while(input != 0 && input != 1);
         return input;
     }
    

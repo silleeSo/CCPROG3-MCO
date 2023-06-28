@@ -20,6 +20,9 @@ public class Slot {
         this(itemToStore, 0);
         this.inventory = new Inventory(itemToStore);
     }
+     public Inventory getInventory() {
+        return inventory;
+    }
 
     public int getQuantityStored() {
         return quantityStored;
@@ -45,6 +48,7 @@ public class Slot {
         int total = qty + quantityStored;
         if (!isFull() && total <= QUANTITY_LIMIT){
             quantityStored = total;
+            getInventory().registerRestock(qty);
             return true;
         }
         return false;
