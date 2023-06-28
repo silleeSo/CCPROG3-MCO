@@ -1,3 +1,5 @@
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 public class RegularVM {
     private final int NUM_SLOTS;
     private Slot[] slots;
@@ -39,6 +41,7 @@ public class RegularVM {
          * **  and change is enough, dispense item, dispense change, add to money the excess
          */
     }
+
     public void purchaseItem(int index) {
         if(index <= slots.length && slots[index] != null && !slots[index].isEmpty()) {
             slots[index].decrementQtyStored();
@@ -50,6 +53,7 @@ public class RegularVM {
     public void initializeSlot(int index, Item item, int qty) {
         slots[index] = new Slot(item, qty);
     }
+
     public boolean isSlotEmpty(int index){
         Slot slotToCheck = slots[index];
         if (slotToCheck == null)
@@ -57,11 +61,13 @@ public class RegularVM {
         return slotToCheck.isEmpty();
             
     }
+
     public boolean isSlotNumValid(int number){
         if (number < 1 || number > NUM_SLOTS)
             return false;
         return true;
     }
+
     //baka di magamit
     public void dispenseItem(Item item) {
         for(Slot slot : slots)
@@ -155,5 +161,20 @@ public class RegularVM {
         System.out.println("200 peso bills: " + moneyQty[6]);
         System.out.println("500 peso bills: " + moneyQty[7]);
         System.out.println("1000 peso bills: " + moneyQty[8]);
+    }
+
+    public void replaceItemInSlot(int index, Item item) {
+        if(slots[index] != null)
+            slots[index].replaceItem(item);
+    }
+
+    public void displayAllInvInfo() {
+        for(Slot slot : slots)
+            System.out.println(slot.getInvInfo());
+    }
+
+    public void displayAllInvQtySold() {
+        for(Slot slot : slots)
+            System.out.println(slot.getInvQtySold());
     }
 }

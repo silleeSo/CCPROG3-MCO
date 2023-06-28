@@ -37,7 +37,7 @@ public class Inventory {
         return itemName + qtyAdded + qtyStart + qtyEnd;
     }
 
-    public String getQtySoldInv() {
+    public String getQtySold() {
         double profit = (qtyStartInv - qtyEndInv) * item.getPrice();
         String itemName = "Item name: " + item.getName() + "\n";
         String itemPrice = "Price: " + item.getPrice() + "\n";

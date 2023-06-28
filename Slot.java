@@ -55,9 +55,11 @@ public class Slot {
         return false;
     }
 
-    public void replaceItemInSlot(Item item) {
-        if(!item.equals(itemInSlot) && quantityStored == 0)
+    public void replaceItem(Item item) {
+        if(!item.equals(itemInSlot) && quantityStored == 0) {
             this.itemInSlot = item;
+            inventory = new Inventory(item);
+        }
     }
 
     public boolean isFull() {
@@ -84,5 +86,13 @@ public class Slot {
 
     public String getItemInfo() {
         return itemInSlot.toString();
+    }
+
+    public String getInvInfo() {
+        return getInventory().toString();
+    }
+
+    public String getInvQtySold() {
+        return getInventory().getQtySold();
     }
 }
