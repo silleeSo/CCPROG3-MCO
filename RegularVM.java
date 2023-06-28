@@ -10,7 +10,7 @@ public class RegularVM {
     
     public void purchaseItem(int index) {
         if(index <= slots.length && slots[index] != null && !slots[index].isEmpty()) {
-            slots[index].setQuantityStored(slots[index].getQuantityStored() - 1);
+            slots[index].decrementQtyStored();
             System.out.println(slots[index].getItemInfo());
         }
     }
@@ -23,7 +23,7 @@ public class RegularVM {
         for(Slot slot : slots)
             if(slot != null && !slot.isEmpty() && slot.getItemInSlot().equals(item)) {
                 System.out.printf("Dispensed item: %s\n", item.toString());
-                slot.setQuantityStored(slot.getQuantityStored() - 1);
+                slot.decrementQtyStored();
             }
     }
 

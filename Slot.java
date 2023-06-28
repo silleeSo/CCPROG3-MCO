@@ -3,6 +3,7 @@ public class Slot {
     private final int QUANTITY_LIMIT = 10;
     private int quantityStored;
     private Item itemInSlot;
+    private Inventory inventory;
 
     public Slot(Item itemToStore, int quantityStored) {
         if(quantityStored > 10)
@@ -10,10 +11,12 @@ public class Slot {
         else
             this.quantityStored = quantityStored;
         this.itemInSlot = itemToStore;
+        this.inventory = new Inventory(itemToStore);
     }
 
     public Slot(Item itemToStore) {
         this(itemToStore, 0);
+        this.inventory = new Inventory(itemToStore);
     }
 
     public int getQuantityStored() {
@@ -22,6 +25,10 @@ public class Slot {
 
     public Item getItemInSlot() {
         return itemInSlot;
+    }
+
+    public void decrementQtyStored() {
+        quantityStored--;
     }
 
     public void setQuantityStored(int quantityStored) {
