@@ -1,9 +1,10 @@
 public class RegularVM {
-    private final int NUM_SLOTS = 8;
+    private final int NUM_SLOTS;
     private Slot[] slots;
     private CashRegister cashReg;
 
     public RegularVM() {
+        NUM_SLOTS = 8;
         slots = new Slot[NUM_SLOTS];
         cashReg = new CashRegister();
     }
@@ -18,7 +19,19 @@ public class RegularVM {
     public void initializeSlot(int index, Item item, int qty) {
         slots[index] = new Slot(item, qty);
     }
-
+    public boolean isSlotEmpty(int index){
+        Slot slotToCheck = slots[index];
+        if (slotToCheck == null)
+            return true;
+        return slotToCheck.isEmpty();
+            
+    }
+    public boolean isSlotNumValid(int number){
+        if (number < 1 || number > NUM_SLOTS)
+            return false;
+        return true;
+    }
+    //baka di magamit
     public void dispenseItem(Item item) {
         for(Slot slot : slots)
             if(slot != null && !slot.isEmpty() && slot.getItemInSlot().equals(item)) {
@@ -26,7 +39,16 @@ public class RegularVM {
                 slot.decrementQtyStored();
             }
     }
-
+    public void dispenseItem(int slotIndex){
+        if (cashReg.getInsertedAmount() > 0){
+            Slot slot = slots[slotIndex];
+            Item item = slot.getItemInSlot();
+            System.out.println("Dispensing "+ item.toString() + "...");
+            slot.decrementQtyStored();
+            slots[slotIndex] = slot;
+        }
+        
+    }
     public void refillMoney(int[] denominations) {
         cashReg.addMoney(denominations);
     }
@@ -46,7 +68,10 @@ public class RegularVM {
         if(!isItemDuplicate(item) && index <= NUM_SLOTS - 1)
             slots[index].setItemInSlot(item);
     }
-    
+    public Item getSlotItem(int slotIndex){
+        Slot slot = slots[slotIndex];
+        return slot.getItemInSlot();
+    }
     public void setItemQuantity(int index, int quantity) {
         if(quantity <= 10)
             slots[index].setQuantityStored(quantity);
@@ -57,9 +82,15 @@ public class RegularVM {
     }
 
     public boolean isItemDuplicate(Item item) {
-        for(Slot slot : slots)
-            if(slot.getItemInSlot().equals(item))
+        boolean isNull = false;
+        for(Slot slot : slots){
+            isNull = false;
+            if (slot == null)
+                isNull = true;
+            if(!isNull && item.equals(slot.getItemInSlot()))
                 return true;
+        }
+            
         
         return false;
     }
@@ -68,7 +99,9 @@ public class RegularVM {
         for(Slot slot : slots)
             System.out.println(slot.toString());
     }
-
+    public CashRegister getCashRegister(){
+        return cashReg;
+    }
     public void displayInventory() {
         for(Slot slot : slots) 
             System.out.println(slot.getItemInfo());

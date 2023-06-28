@@ -8,6 +8,8 @@ public class Slot {
     public Slot(Item itemToStore, int quantityStored) {
         if(quantityStored > 10)
             this.quantityStored = 10;
+        else if (quantityStored < 0)
+            this.quantityStored = 0;
         else
             this.quantityStored = quantityStored;
         this.itemInSlot = itemToStore;
@@ -60,7 +62,7 @@ public class Slot {
     }
     
     public boolean isEmpty() {
-        if (quantityStored == 0)
+        if (itemInSlot == null || quantityStored == 0)
             return true;
         return false;
     }

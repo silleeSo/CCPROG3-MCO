@@ -3,6 +3,7 @@ import java.util.HashMap;
 public class CashRegister{
     private HashMap<Integer, Integer> money;
     private HashMap<Integer, Integer> denominations;
+    private int insertedAmnt;
     //constructor: instantiates hashmaps and initializes everything to zero
     public CashRegister(){
         money = new HashMap<>();
@@ -48,7 +49,11 @@ public class CashRegister{
         return qty;
         
     }
-
+    public boolean isMoneyQtyValid(int qty){
+        if (qty < 0)
+            return false;
+        return true;
+    }
     //gets the denomination using a given key (type of bill) and the total Amount to achieve
     public int getDenominationForKey(int key, int totalAmount) {
         
@@ -67,6 +72,22 @@ public class CashRegister{
         money = tempHash;   // set moeny hash to updated (or not) money hash 
         return tempNum;     // return
     }
+     public void getDenominationStartingFrom(int key, int number){
+         resetDenominations();
+        int amntLeft = number;
+        switch(key){
+            case 1000:  amntLeft = getDenominationForKey(1000, amntLeft);
+            case 500:   amntLeft = getDenominationForKey(500, amntLeft);
+            case 200:   amntLeft = getDenominationForKey(200, amntLeft);
+            case 100:   amntLeft = getDenominationForKey(100, amntLeft);
+            case 50:    amntLeft = getDenominationForKey(50, amntLeft);
+            case 20:    amntLeft = getDenominationForKey(20, amntLeft);
+            case 10:    amntLeft = getDenominationForKey(10, amntLeft);
+            case 5:     amntLeft = getDenominationForKey(5, amntLeft);
+            case 1:     amntLeft = getDenominationForKey(1, amntLeft);
+        }
+     
+    }
     //computes for the total change based on denomination hashmap, can be used for comparison and checking
     public int computeTotalChange(){
         int totalChange = 0;
@@ -82,22 +103,39 @@ public class CashRegister{
         totalChange += denominations.get(1000)*1000;
         return totalChange;
     }
+    public void computeInsertedAmount(int[] inserted){
+        insertedAmnt = 0;
+       
+        for (int i = 0; i < 9; i++)
+            insertedAmnt += inserted[i];
+    }
+    public int getInsertedAmount(){
+        return insertedAmnt;
+    }
     //subtotal = the amount charged to the user, amountInserted, the amount user gives
     // this class updates the hashmap denominations
-    public void computeDenominations(int subtotal, int amountInserted){
+    public void computeFinalDenominations(int subtotal, int amountInserted){
         int change = amountInserted - subtotal;
         //what if the user inserts less?? = call boolean is
         //get denominations, check money hash
         HashMap<Integer, Integer> originalMoney = money;
-        change = getDenominationForKey(1000, change);
-        change = getDenominationForKey(500, change);
-        change = getDenominationForKey(200, change);
-        change = getDenominationForKey(100, change);
-        change = getDenominationForKey(50, change);
-        change = getDenominationForKey(20, change);
-        change = getDenominationForKey(10, change);
-        change = getDenominationForKey(5, change);
-        change = getDenominationForKey(1, change);
+        getDenominationStartingFrom(1000, change);   
+        if (!isChangeEnough(subtotal,amountInserted))
+            getDenominationStartingFrom(500, change);
+        if (!isChangeEnough(subtotal,amountInserted))
+            getDenominationStartingFrom(200, change);
+        if (!isChangeEnough(subtotal,amountInserted))
+            getDenominationStartingFrom(100, change);    
+        if (!isChangeEnough(subtotal,amountInserted))  
+            getDenominationStartingFrom(50, change);  
+        if (!isChangeEnough(subtotal,amountInserted))
+            getDenominationStartingFrom(20, change); 
+         if (!isChangeEnough(subtotal,amountInserted))
+            getDenominationStartingFrom(10, change);    
+         if (!isChangeEnough(subtotal,amountInserted))
+           getDenominationStartingFrom(5, change);   
+         if (!isChangeEnough(subtotal,amountInserted))
+            getDenominationStartingFrom(1, change);
         if (!isChangeEnough(subtotal, amountInserted)){
             resetDenominations();
             money = originalMoney;
@@ -172,16 +210,21 @@ public class CashRegister{
 
     //displays the total change
     public void displayTotalChange(){
-
-        displayBillDenomination(1, denominations.get(1));
-        displayBillDenomination(5, denominations.get(5));
-        displayBillDenomination(10, denominations.get(10));
-        displayBillDenomination(20, denominations.get(20));
-        displayBillDenomination(50, denominations.get(50));
-        displayBillDenomination(100, denominations.get(100));
-        displayBillDenomination(200, denominations.get(200));
-        displayBillDenomination(500, denominations.get(500));
-        displayBillDenomination(1000, denominations.get(1000));
+        if (insertedAmnt > 0){
+            displayBillDenomination(1, denominations.get(1));
+            displayBillDenomination(5, denominations.get(5));
+            displayBillDenomination(10, denominations.get(10));
+            displayBillDenomination(20, denominations.get(20));
+            displayBillDenomination(50, denominations.get(50));
+            displayBillDenomination(100, denominations.get(100));
+            displayBillDenomination(200, denominations.get(200));
+            displayBillDenomination(500, denominations.get(500));
+            displayBillDenomination(1000, denominations.get(1000));
+        }
+        else{
+            System.out.println("Purchase Cancelled.");
+        }
+        
     }
 
     
