@@ -17,7 +17,7 @@ public class RegularVM {
         if (insertedAmnt == 0){
             System.out.println("Purchase Cancelled.");
         }
-        else if (cashReg.isChangeEnough((int)item.getPrice(), insertedAmnt) && insertedAmnt > 0)
+        else if (cashReg.computeTotalChange()>0 && insertedAmnt > 0)
         {
             cashReg.addMoney(moneyInserted);    //WORKING
             dispenseItem(slotIndex);    //WORKING

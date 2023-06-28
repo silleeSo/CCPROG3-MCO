@@ -119,6 +119,7 @@ public class CashRegister{
             case 10:    amntLeft = getDenominationForKey(10, amntLeft);
             case 5:     amntLeft = getDenominationForKey(5, amntLeft);
             case 1:     amntLeft = getDenominationForKey(1, amntLeft);
+                        break;
         }
      
     }
