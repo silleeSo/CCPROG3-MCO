@@ -6,9 +6,10 @@ Notes
 - create simulation for features testing (?)
 - items pool, ask for num of coins/bills
 //      UNFINISHED!!*/
+
+
 public class Driver {
      
-    private ArrayList<RegularVM> regularVMs; 
     private RegularVM regularVM;
     private Item[] itemPool;
     public static Scanner keypad = new Scanner(System.in);
@@ -97,16 +98,17 @@ public class Driver {
             input = keypad.nextInt();
             switch(input){
                 case 1:
-                        featuresTest(VMInd);
-                        break;
+                    featuresTest(VMInd);
+                    break;
                 case 2:
-                        break;
+                    maintenanceTest(VMInd);
+                    break;
                 case 3: break;
             }
         }
-
     }
-    public void featuresTest(int index ){
+
+    public void featuresTest(int index){
         int input = 0;
         while(input!=-1){
             int[] moneyQty = new int[9];
@@ -199,6 +201,7 @@ public class Driver {
             }
         }
     }
+
     public int askYesOrNo(){
         int input = 0;
         do{
@@ -221,7 +224,17 @@ public class Driver {
         itemPool[9] = new Item("Katsu", 135, 142);
 
     }
-    
+    public int promptValidVMInd(){
+        int index;
+        System.out.println("Select a vending machine to view information (0-" + (regularVMCount-1) + "): ");
+        index = keypad.nextInt();
+        while (index < 0 || index > regularVMCount){
+            System.out.print("Enter a valid number: ");
+            index = keypad.nextInt();
+        }
+        return index;
+    }
+
     public int promptValidMoneyQty(int qty, CashRegister cashReg){
          while (!cashReg.isMoneyQtyValid(qty)){
             System.out.print("Enter a valid number: ");
@@ -229,16 +242,18 @@ public class Driver {
          }
         return qty;
     }
+
     public int askForEmptySlot(RegularVM newRegVM){
         int slotNum;
          System.out.print("Enter slot number (1-8): ");
             slotNum = keypad.nextInt();//accept input
-            while(  !newRegVM.isSlotNumValid(slotNum) || !newRegVM.isSlotEmpty(slotNum-1)){
+            while(!newRegVM.isSlotNumValid(slotNum) || !newRegVM.isSlotEmpty(slotNum-1)){
                 System.out.print("Error, try again (choose an empty slot 1-8): ");
                 slotNum = keypad.nextInt();//accept input
             }
             return slotNum;
     }
+
     public void printItemPool(){
          System.out.println("\t--Item Pool--");
             System.out.println("Number\tItem\t\tCalories\tPrice");
@@ -250,6 +265,7 @@ public class Driver {
             }
 
     }
+
     public int askForProductInd(RegularVM newRegVM){
         
         int prodNum;
@@ -262,6 +278,7 @@ public class Driver {
         }
         return prodNum;
     }
+
     public int[] askForMoneyQty(CashRegister cashReg){
         int[] moneyQty = new int[9];
         System.out.println("Enter number of the ff. coins/bills:");
@@ -302,5 +319,82 @@ public class Driver {
         promptValidMoneyQty(moneyQty[8], cashReg);
 
         return moneyQty;
+    }
+
+    /*
+ * restocking specific items, replace an item
+ * setting the price for the item type
+ * collecting payment
+ * replenishing money to provide change
+ * print summary of transactions qty x price
+ * display inv
+ */
+
+    public void maintenanceTest() {
+    
+        int menuChoice = 0;
+        while(menuChoice != 7) {
+            System.out.println("Select a maintenance feature: ");
+            System.out.println("1: Restocking an item");
+            System.out.println("2: Replacing an item");
+            System.out.println("3: Collecting payment");
+            System.out.println("4: Replenishing money");
+            System.out.println("5: Print summary of transactions");
+            System.out.println("6: Display inventory");
+
+            menuChoice = keypad.nextInt();
+            switch(menuChoice) {
+                case 1:
+                    int slotIndex = keypad.nextInt();
+                    keypad.nextLine();
+                    int itemQty = keypad.nextInt();
+                    regularVM.restockSlot(slotIndex, itemQty);
+                    break;
+                case 2:
+                    String name = keypad.nextLine();
+                    double price = keypad.nextDouble();
+                    keypad.nextLine();
+                    double calorieCount = keypad.nextDouble();
+                    keypad.nextLine();
+                    slotIndex = keypad.nextInt();
+                    keypad.nextLine();
+                    Item item = new Item(name, price, calorieCount);
+                    regularVM.replaceItemInSlot(slotIndex, item);
+                    break;
+                case 3:
+                    regularVM.getCashRegister().clearCashRegister();
+                    break;
+                case 4:
+                    int[] moneyQty = new int[9];
+                    moneyQty[0] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[1] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[2] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[3] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[4] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[5] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[6] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[7] = keypad.nextInt();
+                    keypad.nextLine();
+                    moneyQty[8] = keypad.nextInt();
+                    keypad.nextLine();
+                    regularVM.getCashRegister().addMoney(moneyQty);
+                    break;
+                case 5:
+                    regularVM.displayAllInvInfo();
+                    break;
+                case 6:
+                    regularVM.displayAllInvQtySold();
+                    break;
+                case 7:
+                    break;
+            }
+        }
     }
 }
