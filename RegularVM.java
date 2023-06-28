@@ -121,13 +121,6 @@ public class RegularVM {
             }
         }
     }
-
-            if(slots[index].getQuantityStored() < quantity) {
-                int diff = quantity - slots[index].getQuantityStored();
-                slots[index].getInventory().registerRestock(diff);
-            }
-        }
-    }
     
     public void restockSlot(int index, int qty) {
         if(slots[index] != null)

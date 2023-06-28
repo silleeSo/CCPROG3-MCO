@@ -20,6 +20,7 @@ public class Slot {
         this(itemToStore, 0);
         this.inventory = new Inventory(itemToStore);
     }
+    
      public Inventory getInventory() {
         return inventory;
     }
@@ -30,10 +31,6 @@ public class Slot {
 
     public Item getItemInSlot() {
         return itemInSlot;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
     }
 
     public void decrementQtyStored() {
