@@ -29,6 +29,10 @@ public class Slot {
         return itemInSlot;
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
+
     public void decrementQtyStored() {
         quantityStored--;
     }
@@ -45,6 +49,7 @@ public class Slot {
         int total = qty + quantityStored;
         if (!isFull() && total <= QUANTITY_LIMIT){
             quantityStored = total;
+            getInventory().registerRestock(qty);
             return true;
         }
         return false;

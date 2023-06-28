@@ -42,6 +42,7 @@ public class RegularVM {
     public void purchaseItem(int index) {
         if(index <= slots.length && slots[index] != null && !slots[index].isEmpty()) {
             slots[index].decrementQtyStored();
+            slots[index].getInventory().incrementQtySold();
             System.out.println(slots[index].getItemInfo());
         }
     }
@@ -67,18 +68,19 @@ public class RegularVM {
             if(slot != null && !slot.isEmpty() && slot.getItemInSlot().equals(item)) {
                 System.out.printf("Dispensed item: %s\n", item.toString());
                 slot.decrementQtyStored();
+                slot.getInventory().incrementQtySold();
             }
     }
-    public void dispenseItem(int slotIndex){
-        
+
+    public void dispenseItem(int slotIndex) {
             Slot slot = slots[slotIndex];
             Item item = slot.getItemInSlot();
             System.out.println("Dispensing "+ item.toString() + "...");
             slot.decrementQtyStored();
+            slot.getInventory().incrementQtySold();
             slots[slotIndex] = slot;
-        
-        
     }
+
     public void refillMoney(int[] denominations) {
         cashReg.addMoney(denominations);
     }
@@ -94,21 +96,25 @@ public class RegularVM {
         }
     }
 
-    public void setSlotItem(int index, Item item) {
-        if(!isItemDuplicate(item) && index <= NUM_SLOTS - 1)
-            slots[index].setItemInSlot(item);
-    }
     public Item getSlotItem(int slotIndex){
         Slot slot = slots[slotIndex];
         return slot.getItemInSlot();
     }
+
     public void setItemQuantity(int index, int quantity) {
-        if(quantity <= 10)
+        if(slots[index] != null && quantity <= 10) {
             slots[index].setQuantityStored(quantity);
+
+            if(slots[index].getQuantityStored() < quantity) {
+                int diff = quantity - slots[index].getQuantityStored();
+                slots[index].getInventory().registerRestock(diff);
+            }
+        }
     }
 
     public void restockSlot(int index, int qty) {
-        slots[index].restockItem(qty);
+        if(slots[index] != null)
+            slots[index].restockItem(qty);
     }
 
     public boolean isItemDuplicate(Item item) {
@@ -121,7 +127,6 @@ public class RegularVM {
                 return true;
         }
             
-        
         return false;
     }
 
