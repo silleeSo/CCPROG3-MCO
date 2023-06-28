@@ -21,10 +21,12 @@ public class RegularVM {
         {
             cashReg.addMoney(moneyInserted);    //WORKING
             dispenseItem(slotIndex);    //WORKING
-            cashReg.dispenseTotalChange();  //NOT WORKING
-            cashReg.deductChangeFromMoney();      //NOT WORKING
+            cashReg.dispenseTotalChange();  //WORKING
+            cashReg.deductChangeFromMoney();      //WORKING
             //add the inserted to money, subtract denomination from money
+            System.out.println("Total Change: PHP" + cashReg.computeTotalChange());
         }
+        else if (insertedAmnt == (int)item.getPrice())
         else{
             System.out.println("Change not enough, dispensing inserted amount...");
             cashReg.displayAmount(moneyInserted);
@@ -126,8 +128,12 @@ public class RegularVM {
     }
 
     public void displaySlots() {
-        for(Slot slot : slots)
+        int i = 1;
+        for(Slot slot : slots){
+            System.out.println("SLOT " + i++);
             System.out.println(slot.toString());
+        }
+            
     }
     public CashRegister getCashRegister(){
         return cashReg;

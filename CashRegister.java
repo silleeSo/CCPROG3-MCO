@@ -138,11 +138,19 @@ public class CashRegister{
         totalChange += denominations.get(1000)*1000;
         return totalChange;
     }
-    public int computeInsertedAmount(int[] inserted){
+    public int computeInsertedAmount(int[] inserted){    
         int insertedAmnt = 0;
        
-        for (int i = 0; i < 9; i++)
-            insertedAmnt += inserted[i];
+        insertedAmnt += 1*inserted[0];
+        insertedAmnt += 5*inserted[1];
+        insertedAmnt += 10*inserted[2];
+        insertedAmnt += 20*inserted[3];
+        insertedAmnt += 50*inserted[4];
+        insertedAmnt += 100*inserted[5];
+        insertedAmnt += 200*inserted[6];
+        insertedAmnt += 500*inserted[7];
+        insertedAmnt += 1000*inserted[8];
+
         return insertedAmnt;
         
     }

@@ -9,6 +9,7 @@ Notes
 public class Driver {
      
     private ArrayList<RegularVM> regularVMs; 
+    private RegularVM regularVM;
     private Item[] itemPool;
     public static Scanner keypad = new Scanner(System.in);
     private int regularVMCount;
@@ -17,6 +18,7 @@ public class Driver {
         regularVMs = new ArrayList<RegularVM>(); 
         itemPool = new Item[10];
         regularVMCount = 0;
+        
     }
     public static void main (String args[]){
 
@@ -48,36 +50,34 @@ public class Driver {
 
     //TO DO: IMPLEMENT createRegularVM()
     public void createRegularVM() {
-        RegularVM newRegVM = new RegularVM();   //create vm instance
+        regularVM = null;
+        regularVM = new RegularVM();
         int slotNum, prodNum, itemQty, input = 1; 
         int[] moneyQty = new int[9];    
        
         for (int i = 0; i < 8 && input == 1; i++){    //repeat 8 times, 8 slots
             System.out.println("\033c"); //clear
             System.out.println("---Create Vending Machine---"); // print header
-            slotNum = askForEmptySlot(newRegVM); // get slot number
+            slotNum = askForEmptySlot(regularVM); // get slot number
             System.out.println("\033c");   //clear
             printItemPool();
-            prodNum = askForProductInd(newRegVM); // get product index        
+            prodNum = askForProductInd(regularVM); // get product index        
             System.out.print("Enter quantity for this item (1-10): "); 
             itemQty = keypad.nextInt();//accept input       
-            newRegVM.initializeSlot(slotNum-1, itemPool[prodNum], itemQty); // create a slot given the specifications
+            regularVM.initializeSlot(slotNum-1, itemPool[prodNum], itemQty); // create a slot given the specifications
             System.out.println("Continue?"); 
             input = askYesOrNo();
 
         }       
         if (input == 1 ){
-            moneyQty = askForMoneyQty(newRegVM.getCashRegister());     //Ask for money
-            newRegVM.refillMoney(moneyQty); //send integer array moneyQty to vending machine
-
-            //add the vending machine created to arraylist of vending machines
-            regularVMs.add(newRegVM);
-            regularVMCount++;   //increment vm count in factory 
+            moneyQty = askForMoneyQty(regularVM.getCashRegister());     //Ask for money
+            regularVM.refillMoney(moneyQty); //send integer array moneyQty to vending machine
+            
         
             //display
             System.out.println("\033c");   //clear
-            newRegVM.displaySlots();
-            newRegVM.displayMoneyQty();
+            regularVM.displaySlots();
+            regularVM.displayMoneyQty();
             System.out.println("Enter any number to continue...");
             slotNum = keypad.nextInt();
        
@@ -88,10 +88,9 @@ public class Driver {
      //TO DO: IMPLEMENT testVM()
     public void testVM(){
         int input = 0, VMInd = 0;
-        VMInd = promptValidVMInd();
-        RegularVM regVM = regularVMs.get(input);
-        regVM.displaySlots();
-        regVM.displayMoneyQty();
+        
+        regularVM.displaySlots();
+        regularVM.displayMoneyQty();
         System.out.println("Test this vending machine?");
         input = askYesOrNo();
          while (input == 1 || input == 2) {
@@ -113,20 +112,20 @@ public class Driver {
     }
     public void featuresTest(int index ){
         int input = 0;
-        int[] moneyQty = new int[9];
-        RegularVM regVM = regularVMs.get(index);
-        CashRegister cashReg = regVM.getCashRegister();
-        regVM.displaySlots();
-        do{
-            System.out.println("Enter slot number to purchase from (1-8): ");
-            input = keypad.nextInt();  //ask for slot num 1-8    
-        }while (!regVM.isSlotNumValid(input));
-        moneyQty = askForMoneyQty(cashReg);
+        while(input!=-1){
+            int[] moneyQty = new int[9];
+            CashRegister cashReg = regularVM.getCashRegister();
+            regularVM.displaySlots();
+            do{
+                System.out.println("Enter slot number to purchase from (1-8), enter -1 to cancel: ");
+                input = keypad.nextInt();  //ask for slot num 1-8    
+            }while (!regularVM.isSlotNumValid(input) && !regularVM.isSlotEmpty(input-1));
+            moneyQty = askForMoneyQty(cashReg);
 
-        regVM.processPurchase(moneyQty, input-1);
+            regularVM.processPurchase(moneyQty, input-1);
 
-        regularVMs.add(index, regVM);
-
+            regularVMs.add(index, regularVM);
+        }
     }
     public int askYesOrNo(){
         int input = 0;
@@ -150,16 +149,7 @@ public class Driver {
         itemPool[9] = new Item("Katsu", 135, 142);
 
     }
-    public int promptValidVMInd(){
-        int index;
-        System.out.println("Select a vending machine to view information (0-" + (regularVMCount-1) + "): ");
-        index = keypad.nextInt();
-        if (index < 0 || index > regularVMCount){
-            System.out.print("Enter a valid number: ");
-            index = keypad.nextInt();
-        }
-        return index;
-    }
+    
     public int promptValidMoneyQty(int qty, CashRegister cashReg){
          while (!cashReg.isMoneyQtyValid(qty)){
             System.out.print("Enter a valid number: ");
