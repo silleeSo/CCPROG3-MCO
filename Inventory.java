@@ -14,9 +14,9 @@ public class Inventory {
     }
 
     public void registerRestock(int qty) {
-        this.qtyStartInv = this.qtyEndInv;
-        this.qtyEndInv += qty;
-        this.qtyAdded = qty;
+        qtyStartInv = qtyEndInv;
+        qtyEndInv += qty;
+        qtyAdded = qty;
     }
 
     public void decrementQtyEnd() {
@@ -38,7 +38,8 @@ public class Inventory {
     }
 
     public String getQtySold() {
-        double profit = (qtyStartInv - qtyEndInv) * item.getPrice();
+        //PAKI DEBUG, MALI UNG PROFITS HEHE TY
+        double profit = qtySold * item.getPrice();
         String itemName = "Item name: " + item.getName() + "\n";
         String itemPrice = "Price: " + item.getPrice() + "\n";
         String qtySold = "Total quantity sold: " + this.qtySold + "\n";
