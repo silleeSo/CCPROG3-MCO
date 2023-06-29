@@ -56,10 +56,8 @@ public class Slot {
     }
 
     public void replaceItem(Item item) {
-        if(!item.equals(itemInSlot) && quantityStored == 0) {
             this.itemInSlot = item;
             inventory = new Inventory(item);
-        }
     }
 
     public boolean isFull() {

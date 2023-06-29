@@ -152,11 +152,16 @@ public class RegularVM {
     public CashRegister getCashRegister(){
         return cashReg;
     }
+
     public void displayInventory() {
         for(Slot slot : slots) 
             System.out.println(slot.getItemInfo());
     }
-
+    public void collectMoney(){
+        cashReg.displayAmount(cashReg.getMoneyQty());
+        cashReg.clearCashRegister();
+        System.out.println("Cash Register is now empty.");
+    }
     public void displayMoneyQty(){
         int[] moneyQty = cashReg.getMoneyQty();
 
@@ -172,9 +177,16 @@ public class RegularVM {
         System.out.println("1000 peso bills: " + moneyQty[8]);
     }
 
-    public void replaceItemInSlot(int index, Item item) {
-        if(slots[index] != null)
-            slots[index].replaceItem(item);
+    public boolean replaceItemInSlot(int index, Item item) {
+        Slot slot = slots[index];
+        if (slot!=null && slot.isEmpty()){
+             slots[index].replaceItem(item);
+             return true;
+        }
+        else
+            return false;
+    
+           
     }
 
     public void displayAllInvInfo() {
