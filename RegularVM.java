@@ -62,6 +62,8 @@ public class RegularVM {
         Slot slotToCheck = slots[index];
         if (slotToCheck == null)
             return true;
+        else if(slotToCheck.isEmpty())
+            return true;
         return slotToCheck.isEmpty();
             
     }
@@ -73,22 +75,23 @@ public class RegularVM {
     }
 
     //baka di magamit
-    public void dispenseItem(Item item) {
-        for(Slot slot : slots)
-            if(slot != null && !slot.isEmpty() && slot.getItemInSlot().equals(item)) {
-                System.out.printf("Dispensed item: %s\n", item.toString());
-                slot.decrementQtyStored();
-                slot.getInventory().incrementQtySold();
-            }
-    }
+    // public void dispenseItem(Item item) {
+    //     for(Slot slot : slots)
+    //         if(slot != null && !slot.isEmpty() && slot.getItemInSlot().equals(item)) {
+    //             System.out.printf("Dispensed item: %s\n", item.toString());
+    //             slot.decrementQtyStored();
+    //             slot.getInventory().incrementQtySold();
+    //         }
+    // }
 
     public void dispenseItem(int slotIndex) {
-            Slot slot = slots[slotIndex];
-            Item item = slot.getItemInSlot();
-            System.out.println("Dispensing "+ item.toString() + "...");
-            slot.decrementQtyStored();
-            slot.getInventory().incrementQtySold();
-            slots[slotIndex] = slot;
+        if(slotIndex <= slots.length && slots[slotIndex] != null) {
+            Item item = slots[slotIndex].getItemInSlot();
+            System.out.println("Dispensing " + item.toString() + "...");
+            slots[slotIndex].decrementQtyStored();
+            slots[slotIndex].getInventory().incrementQtySold();
+            slots[slotIndex].getInventory().decrementQtyEnd();
+        }
     }
 
     public void refillMoney(int[] denominations) {
@@ -106,13 +109,17 @@ public class RegularVM {
         }
     }
 
-    public Item getSlotItem(int slotIndex){
-        Slot slot = slots[slotIndex];
-        return slot.getItemInSlot();
+    public Item getSlotItem(int slotIndex) {
+        if(slotIndex <= slots.length) {
+            Slot slot = slots[slotIndex];
+            return slot.getItemInSlot();
+        }
+        else
+            return null;
     }
 
     public void setItemQuantity(int index, int quantity) {
-        if(slots[index] != null && quantity <= 10) {
+        if(index <= slots.length && slots[index] != null && quantity <= 10) {
             slots[index].setQuantityStored(quantity);
 
             if(slots[index].getQuantityStored() < quantity) {
@@ -144,17 +151,26 @@ public class RegularVM {
     public void displaySlots() {
         int i = 1;
         for(Slot slot : slots){
-            System.out.println("SLOT " + i++);
-            System.out.println(slot.toString());
+            if(slot != null) {
+                System.out.println("SLOT " + i++);
+                System.out.println(slot.toString());
+            }
         }
-            
     }
     public CashRegister getCashRegister(){
         return cashReg;
     }
+
     public void displayInventory() {
-        for(Slot slot : slots) 
-            System.out.println(slot.getItemInfo());
+        for(Slot slot : slots)
+            if(slot != null)
+                System.out.println(slot.getItemInfo());
+    }
+
+    public void collectMoney(){
+        cashReg.displayAmount(cashReg.getMoneyQty());
+        cashReg.clearCashRegister();
+        System.out.println("Cash Register is now empty.");
     }
 
     public void displayMoneyQty(){
@@ -172,18 +188,25 @@ public class RegularVM {
         System.out.println("1000 peso bills: " + moneyQty[8]);
     }
 
-    public void replaceItemInSlot(int index, Item item) {
-        if(slots[index] != null)
-            slots[index].replaceItem(item);
+    public boolean replaceItemInSlot(int index, Item item) {
+        Slot slot = slots[index];
+        if (slot!=null && slot.isEmpty()){
+             slots[index].replaceItem(item);
+             return true;
+        }
+        else
+            return false;
     }
 
     public void displayAllInvInfo() {
         for(Slot slot : slots)
-            System.out.println(slot.getInvInfo());
+            if(slot != null)
+                System.out.println(slot.getInvInfo());
     }
 
     public void displayAllInvQtySold() {
         for(Slot slot : slots)
-            System.out.println(slot.getInvQtySold());
+            if(slot != null)
+                System.out.println(slot.getInvQtySold());
     }
 }
