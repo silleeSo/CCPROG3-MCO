@@ -106,7 +106,7 @@ public class Driver {
     }
 
     public void featuresTest(){
-        int input = 0;
+        int input = 1;
         while(input!=0){
             int[] moneyQty = new int[9];
             CashRegister cashReg = regularVM.getCashRegister();
@@ -114,10 +114,10 @@ public class Driver {
             do{
                 System.out.println("Enter slot number to purchase from (1-8), enter 0 to cancel: ");
                 input = keypad.nextInt();  //ask for slot num 1-8    
-                if (input == -1)
+                if (input == 0)
                     break;
             }while (!regularVM.isSlotNumValid(input) && !regularVM.isSlotEmpty(input-1));
-            if (input!=-1){
+            if (input!=0){
                 moneyQty = askForMoneyQty(cashReg);
                 regularVM.processPurchase(moneyQty, input-1);
                 System.out.println("Enter any number to continue, enter zero to go back to menu: ");
