@@ -8,18 +8,18 @@ Notes
 
 
 public class Driver {
-     
     private RegularVM regularVM;
     private Item[] itemPool;
     public static Scanner keypad = new Scanner(System.in);
-    private int regularVMCount;
+
+
+
 
     public Driver(){
+
         itemPool = new Item[10];
-        regularVMCount = 0;
-        
     }
-    public static void main (String args[]){
+    public static void main (String args[]) {
 
         int input = 0;
         Driver factory = new Driver();
@@ -49,7 +49,6 @@ public class Driver {
 
     //TO DO: IMPLEMENT createRegularVM()
     public void createRegularVM() {
-        regularVM = null;
         regularVM = new RegularVM();
         int slotNum, prodNum, itemQty, input = 1; 
         int[] moneyQty = new int[9];    
@@ -82,7 +81,7 @@ public class Driver {
   
      //TO DO: IMPLEMENT testVM()
     public void testVM(){
-        int input = 0, VMInd = 0;
+        int input = 0;
         
         regularVM.displaySlots();
         regularVM.displayMoneyQty();
@@ -120,22 +119,14 @@ public class Driver {
             }while (!regularVM.isSlotNumValid(input) && !regularVM.isSlotEmpty(input-1));
             if (input!=-1){
                 moneyQty = askForMoneyQty(cashReg);
-
                 regularVM.processPurchase(moneyQty, input-1);
             }
            
 
             //regularVMs.add(index, regularVM);
+
         }
     }
-     /*
- * restocking specific items, replace an item
- * setting the price for the item type
- * collecting payment
- * replenishing money to provide change
- * print summary of transactions qty x price
- * display inv
- */
 
     public void maintenanceTest() {
     
@@ -153,11 +144,16 @@ public class Driver {
             switch(menuChoice) {
                 case 1:
                     System.out.println("Enter a slot number: ");
-                    int slotIndex = keypad.nextInt()-1;
+
+                    int slotIndex = keypad.nextInt() - 1;
+
                     //do while slot is valid
                     keypad.nextLine();
                     System.out.println("Enter item quantity: ");
                     int itemQty = keypad.nextInt();
+
+                    keypad.nextLine();
+
     
                     regularVM.restockSlot(slotIndex, itemQty);
                     break;
@@ -194,7 +190,7 @@ public class Driver {
                     regularVM.displayAllInvQtySold();
                     break;
                 case 6:
-                    
+
                     regularVM.displayAllInvInfo();
                     break;
                 case 7:
@@ -212,7 +208,7 @@ public class Driver {
         return input;
     }
    
-    public  void initializeItemPool(){
+    public void initializeItemPool(){
         itemPool[0] = new Item("Tamago", 100, 53);
         itemPool[1] = new Item("Seaweed", 35, 45);
         itemPool[2] = new Item("Gyoza", 65, 57);
@@ -224,16 +220,6 @@ public class Driver {
         itemPool[8] = new Item("Crab", 75, 95);
         itemPool[9] = new Item("Katsu", 135, 142);
 
-    }
-    public int promptValidVMInd(){
-        int index;
-        System.out.println("Select a vending machine to view information (0-" + (regularVMCount-1) + "): ");
-        index = keypad.nextInt();
-        while (index < 0 || index > regularVMCount){
-            System.out.print("Enter a valid number: ");
-            index = keypad.nextInt();
-        }
-        return index;
     }
 
     public int promptValidMoneyQty(int qty, CashRegister cashReg){
@@ -331,4 +317,6 @@ public class Driver {
 
         return moneyQty;
     }
+
 }
+

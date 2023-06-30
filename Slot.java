@@ -14,6 +14,7 @@ public class Slot {
             this.quantityStored = quantityStored;
         this.itemInSlot = itemToStore;
         this.inventory = new Inventory(itemToStore);
+        inventory.registerRestock(quantityStored);
     }
 
     public Slot(Item itemToStore) {
@@ -39,23 +40,35 @@ public class Slot {
 
     public void setQuantityStored(int quantityStored) {
         this.quantityStored = quantityStored;
+
+        if(quantityStored > this.quantityStored) {
+            int diff = this.quantityStored - quantityStored;
+            inventory.registerRestock(diff);
+        }
     }
 
     public void setItemInSlot(Item itemInSlot) {
+        Item compare = this.itemInSlot;
         this.itemInSlot = itemInSlot;
+
+        if(!itemInSlot.equals(compare))
+            inventory = new Inventory(itemInSlot);
     }
 
     public boolean restockItem(int qty) {
         int total = qty + quantityStored;
         if (!isFull() && total <= QUANTITY_LIMIT){
             quantityStored = total;
-            getInventory().registerRestock(qty);
+            inventory.registerRestock(qty);
             return true;
         }
         return false;
     }
 
     public void replaceItem(Item item) {
+
+        if(!itemInSlot.equals(item)) {
+
             this.itemInSlot = item;
             inventory = new Inventory(item);
     }
