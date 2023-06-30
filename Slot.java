@@ -14,11 +14,13 @@ public class Slot {
             this.quantityStored = quantityStored;
         this.itemInSlot = itemToStore;
         this.inventory = new Inventory(itemToStore);
+        inventory.registerRestock(quantityStored);
     }
 
     public Slot(Item itemToStore) {
         this(itemToStore, 0);
         this.inventory = new Inventory(itemToStore);
+        inventory.registerRestock(quantityStored);
     }
     
      public Inventory getInventory() {
