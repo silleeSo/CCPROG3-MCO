@@ -172,7 +172,11 @@ public class RegularVM {
         cashReg.clearCashRegister();
         System.out.println("Cash Register is now empty.");
     }
-
+    public void collectMoney(){
+        cashReg.displayAmount(cashReg.getMoneyQty());
+        cashReg.clearCashRegister();
+        System.out.println("Cash Register is now empty.");
+    }
     public void displayMoneyQty(){
         int[] moneyQty = cashReg.getMoneyQty();
 
@@ -196,6 +200,7 @@ public class RegularVM {
         }
         else
             return false;
+
     }
 
     public void displayAllInvInfo() {

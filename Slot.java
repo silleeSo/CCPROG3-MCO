@@ -66,10 +66,11 @@ public class Slot {
     }
 
     public void replaceItem(Item item) {
+
         if(!itemInSlot.equals(item)) {
+
             this.itemInSlot = item;
             inventory = new Inventory(item);
-        }
     }
 
     public boolean isFull() {

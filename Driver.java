@@ -12,7 +12,11 @@ public class Driver {
     private Item[] itemPool;
     public static Scanner keypad = new Scanner(System.in);
 
-    public Driver() {
+
+
+
+    public Driver(){
+
         itemPool = new Item[10];
     }
     public static void main (String args[]) {
@@ -117,6 +121,10 @@ public class Driver {
                 moneyQty = askForMoneyQty(cashReg);
                 regularVM.processPurchase(moneyQty, input-1);
             }
+           
+
+            //regularVMs.add(index, regularVM);
+
         }
     }
 
@@ -136,12 +144,16 @@ public class Driver {
             switch(menuChoice) {
                 case 1:
                     System.out.println("Enter a slot number: ");
+
                     int slotIndex = keypad.nextInt() - 1;
+
                     //do while slot is valid
                     keypad.nextLine();
                     System.out.println("Enter item quantity: ");
                     int itemQty = keypad.nextInt();
+
                     keypad.nextLine();
+
     
                     regularVM.restockSlot(slotIndex, itemQty);
                     break;
@@ -178,6 +190,7 @@ public class Driver {
                     regularVM.displayAllInvQtySold();
                     break;
                 case 6:
+
                     regularVM.displayAllInvInfo();
                     break;
                 case 7:
@@ -304,4 +317,6 @@ public class Driver {
 
         return moneyQty;
     }
+
 }
+

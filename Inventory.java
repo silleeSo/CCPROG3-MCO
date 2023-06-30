@@ -39,7 +39,9 @@ public class Inventory {
 
     public String getQtySold() {
         //PAKI DEBUG, MALI UNG PROFITS HEHE TY
+
         double profit = qtySold * item.getPrice();
+
         String itemName = "Item name: " + item.getName() + "\n";
         String itemPrice = "Price: " + item.getPrice() + "\n";
         String qtySold = "Total quantity sold: " + this.qtySold + "\n";
