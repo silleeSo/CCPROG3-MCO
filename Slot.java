@@ -55,14 +55,17 @@ public class Slot {
             inventory = new Inventory(itemInSlot);
     }
 
-    public boolean restockItem(int qty) {
+    public void restockItem(int qty) {
         int total = qty + quantityStored;
         if (!isFull() && total <= QUANTITY_LIMIT){
             quantityStored = total;
             inventory.registerRestock(qty);
-            return true;
+            
         }
-        return false;
+        else {
+            qty = 10 - quantityStored;
+            inventory.registerRestock(qty);
+        }
     }
 
     public void replaceItem(Item item) {
@@ -71,8 +74,8 @@ public class Slot {
 
             this.itemInSlot = item;
             inventory = new Inventory(item);
+        }
     }
-
     public boolean isFull() {
         if (quantityStored == QUANTITY_LIMIT)
             return true;

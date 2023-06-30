@@ -107,12 +107,12 @@ public class Driver {
 
     public void featuresTest(){
         int input = 0;
-        while(input!=-1){
+        while(input!=0){
             int[] moneyQty = new int[9];
             CashRegister cashReg = regularVM.getCashRegister();
             regularVM.displaySlots();
             do{
-                System.out.println("Enter slot number to purchase from (1-8), enter -1 to cancel: ");
+                System.out.println("Enter slot number to purchase from (1-8), enter 0 to cancel: ");
                 input = keypad.nextInt();  //ask for slot num 1-8    
                 if (input == -1)
                     break;
@@ -120,6 +120,8 @@ public class Driver {
             if (input!=-1){
                 moneyQty = askForMoneyQty(cashReg);
                 regularVM.processPurchase(moneyQty, input-1);
+                System.out.println("Enter any number to continue, enter zero to go back to menu: ");
+                input = keypad.nextInt();   
             }
            
 
@@ -139,6 +141,7 @@ public class Driver {
             System.out.println("4: Replenishing money");
             System.out.println("5: Print summary of transactions");
             System.out.println("6: Display inventory");
+            System.out.println("7: Exit");
 
             menuChoice = keypad.nextInt();
             switch(menuChoice) {

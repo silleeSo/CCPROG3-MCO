@@ -17,6 +17,7 @@ public class Inventory {
         qtyStartInv = qtyEndInv;
         qtyEndInv += qty;
         qtyAdded = qty;
+        qtySold = 0;
     }
 
     public void decrementQtyEnd() {
