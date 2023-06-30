@@ -1,19 +1,9 @@
 import java.util.Scanner;
-/* 
-Notes
-- transactions, inventory
-- create simulation for features testing (?)
-- items pool, ask for num of coins/bills
-//      UNFINISHED!!*/
-
 
 public class Driver {
     private RegularVM regularVM;
     private Item[] itemPool;
     public static Scanner keypad = new Scanner(System.in);
-
-
-
 
     public Driver(){
 
@@ -31,7 +21,11 @@ public class Driver {
             System.out.println("\t1 - Create Vending Machine");
             System.out.println("\t2 - Test a Vending Machine");
             System.out.println("\t3 - Exit");
-            input = keypad.nextInt();
+            do{
+                System.out.println("Enter a number: ");
+                input = keypad.nextInt();
+                keypad.nextLine();
+            }while(input < 1 || input > 3);
             System.out.println("\033c");    //CLEAR
             switch (input) {
                 case 1:
@@ -87,7 +81,6 @@ public class Driver {
      //TO DO: IMPLEMENT testVM()
     public void testVM(){
         int input = 0;
-        
         regularVM.displaySlots();
         regularVM.displayMoneyQty();
         System.out.println("Test this vending machine?");
@@ -97,7 +90,12 @@ public class Driver {
             System.out.println("1 - Features Test");
             System.out.println("2 - Maintenance Test");
             System.out.println("3 - Exit");
-            input = keypad.nextInt();
+            do{
+                System.out.println("Enter a valid number: ");
+                input = keypad.nextInt();
+                keypad.nextLine();
+            }while(input < 1 || input > 3);
+            
             switch(input){
                 case 1:
                     featuresTest();
@@ -121,17 +119,13 @@ public class Driver {
                 input = keypad.nextInt();  //ask for slot num 1-8    
                 if (input == 0)
                     break;
-            }while (!regularVM.isSlotNumValid(input) && !regularVM.isSlotEmpty(input-1));
+            } while (!regularVM.isSlotNumValid(input) || regularVM.isSlotEmpty(input-1));
             if (input!=0){
                 moneyQty = askForMoneyQty(cashReg);
                 regularVM.processPurchase(moneyQty, input-1);
                 System.out.println("Enter any number to continue, enter zero to go back to menu: ");
                 input = keypad.nextInt();   
             }
-           
-
-            //regularVMs.add(index, regularVM);
-
         }
     }
 
@@ -147,26 +141,20 @@ public class Driver {
             System.out.println("5: Print summary of transactions");
             System.out.println("6: Display inventory");
             System.out.println("7: Exit");
-
-            menuChoice = keypad.nextInt();
+            do{
+                System.out.println("Enter a valid number: ");
+                menuChoice = keypad.nextInt();
+            }while(menuChoice < 1 || menuChoice > 7);
             switch(menuChoice) {
                 case 1:
-                    System.out.println("Enter a slot number: ");
-
-                    int slotIndex = keypad.nextInt() - 1;
-
-                    //do while slot is valid
+                    int slotIndex = askForValidSlot() - 1;
                     keypad.nextLine();
                     System.out.println("Enter item quantity: ");
                     int itemQty = keypad.nextInt();
-
                     keypad.nextLine();
-
-    
                     regularVM.restockSlot(slotIndex, itemQty);
                     break;
-                case 2://NEEDS REVISION
-
+                case 2:
                     printItemPool();
                     int prodNum = askForProductInd();
                     int slotNum = askForValidSlot();
@@ -175,17 +163,6 @@ public class Driver {
                         System.out.println("Item replaced successfully.");
                     else
                         System.out.println("Item can not be replaced, slot is not empty.");
-                    //System.out.println("Enter item name: ");
-                    //what if item name doesnt exist
-                    /*String name = keypad.nextLine();
-                    double price = keypad.nextDouble();
-                    keypad.nextLine();
-                    double calorieCount = keypad.nextDouble();
-                    keypad.nextLine();
-                    slotIndex = keypad.nextInt();
-                    keypad.nextLine();
-                    Item item = new Item(name, price, calorieCount);
-                    regularVM.replaceItemInSlot(slotIndex, item);*/
                     break;
                 case 3:
                     regularVM.collectMoney();
@@ -198,7 +175,6 @@ public class Driver {
                     regularVM.displayAllInvQtySold();
                     break;
                 case 6:
-
                     regularVM.displayAllInvInfo();
                     break;
                 case 7:
@@ -206,7 +182,6 @@ public class Driver {
             }
         }
     }
-
     public int askYesOrNo(){
         int input = 0;
         do{
@@ -215,7 +190,6 @@ public class Driver {
         }while(input != 0 && input != 1);
         return input;
     }
-   
     public void initializeItemPool(){
         itemPool[0] = new Item("Tamago", 100, 53);
         itemPool[1] = new Item("Seaweed", 35, 45);
@@ -227,7 +201,6 @@ public class Driver {
         itemPool[7] = new Item("Karage", 128, 230);
         itemPool[8] = new Item("Crab", 75, 95);
         itemPool[9] = new Item("Katsu", 135, 142);
-
     }
 
     public int promptValidMoneyQty(int qty, CashRegister cashReg){
@@ -237,7 +210,6 @@ public class Driver {
          }
         return qty;
     }
-
     public int askForEmptySlot(){
         int slotNum;
          System.out.print("Enter slot number (1-8): ");
@@ -248,7 +220,7 @@ public class Driver {
             }
             return slotNum;
     }
-     public int askForValidSlot(){
+    public int askForValidSlot(){
         int slotNum;
          System.out.print("Enter slot number (1-8): ");
             slotNum = keypad.nextInt();//accept input
@@ -258,32 +230,25 @@ public class Driver {
             }
             return slotNum;
     }
-
     public void printItemPool(){
-         System.out.println("\t--Item Pool--");
-            System.out.println("Number\tItem\t\tCalories\tPrice");
-
-            for (int j = 0; j < 10; j++){
-                System.out.print(j+"\t"+itemPool[j].getName()+"\t\t");
-                System.out.print(itemPool[j].getCalories()+"\t\t");
-                System.out.println(itemPool[j].getPrice()+"\t");
-            }
-
+        System.out.println("\t--Item Pool--");
+        System.out.println("Number\tItem\t\tCalories\tPrice");
+        for (int j = 0; j < 10; j++){
+            System.out.print(j+"\t"+itemPool[j].getName()+"\t\t");
+            System.out.print(itemPool[j].getCalories()+"\t\t");
+            System.out.println(itemPool[j].getPrice()+"\t");
+        }
     }
-
     public int askForProductInd(){
-        
         int prodNum;
         System.out.print("Enter item for this slot (0-9): ");  
         prodNum = keypad.nextInt();//accept input
-        //INPUT VALIDATION
         while( prodNum < 0 || prodNum > 9 || regularVM.isItemDuplicate(itemPool[prodNum])){
             System.out.print("Error, try again (no duplicates 0-9): ");
             prodNum = keypad.nextInt();
         }
         return prodNum;
     }
-
     public int[] askForMoneyQty(CashRegister cashReg){
         int[] moneyQty = new int[9];
         System.out.println("Enter number of the ff. coins/bills:");
@@ -325,6 +290,5 @@ public class Driver {
 
         return moneyQty;
     }
-
 }
 

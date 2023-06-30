@@ -1,4 +1,3 @@
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 public class RegularVM {
     private final int NUM_SLOTS;
@@ -35,15 +34,6 @@ public class RegularVM {
             System.out.println("Change not enough, dispensing inserted amount...");
             cashReg.displayAmount(moneyInserted);
         }
-        /*
-         * 1. compute amount inserted
-         * 2. compute final denominations(using itemPrice and inserted amnt)
-         * **if change is not enought tlga, magiging zero yung denominations
-         *      - if this happens, dispense the amount inserted, do not add to money, do not dispense item
-         * ** if denominations = 0 and amntinserted = 0, cancel, do not dispense item, 
-         * ** if denominations = 0 and amntinserted > 0, dispense amount inserted, do not dispense item
-         * **  and change is enough, dispense item, dispense change, add to money the excess
-         */
     }
 
     public void purchaseItem(int index) {
@@ -74,15 +64,6 @@ public class RegularVM {
         return true;
     }
 
-    //baka di magamit
-    // public void dispenseItem(Item item) {
-    //     for(Slot slot : slots)
-    //         if(slot != null && !slot.isEmpty() && slot.getItemInSlot().equals(item)) {
-    //             System.out.printf("Dispensed item: %s\n", item.toString());
-    //             slot.decrementQtyStored();
-    //             slot.getInventory().incrementQtySold();
-    //         }
-    // }
 
     public void dispenseItem(int slotIndex) {
         if(slotIndex <= slots.length && slots[slotIndex] != null) {
