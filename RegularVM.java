@@ -55,7 +55,7 @@ public class RegularVM {
     }
 
     public void dispenseItem(int slotIndex) {
-        if(slotIndex <= slots.length && slots[slotIndex] != null) {
+        if(slotIndex < slots.length && slots[slotIndex] != null) {
             Item item = slots[slotIndex].getItemInSlot();
             System.out.println("Dispensing " + item.toString() + "...");
             slots[slotIndex].decrementQtyStored();
@@ -69,7 +69,7 @@ public class RegularVM {
     }
 
     public Item getSlotItem(int slotIndex) {
-        if(slotIndex <= slots.length) {
+        if(slotIndex < slots.length) {
             Slot slot = slots[slotIndex];
             return slot.getItemInSlot();
         }

@@ -14,10 +14,13 @@ public class Inventory {
     }
 
     public void registerRestock(int qty) {
-        qtyStartInv = qtyEndInv;
-        qtyEndInv += qty;
-        qtyAdded = qty;
-        qtySold = 0;
+        if (qty!=0){
+            qtyStartInv = qtyEndInv;
+            qtyEndInv += qty;
+            qtyAdded = qty;
+            qtySold = 0;
+        }
+        
     }
 
     public void decrementQtyEnd() {
