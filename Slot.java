@@ -1,5 +1,4 @@
 public class Slot {
-    //KINDA FINISHED ISH TOO
     private final int QUANTITY_LIMIT = 10;
     private int quantityStored;
     private Item itemInSlot;
@@ -16,11 +15,6 @@ public class Slot {
         this.inventory = new Inventory(itemToStore);
         inventory.registerRestock(quantityStored);
     }
-
-    public Slot(Item itemToStore) {
-        this(itemToStore, 0);
-        this.inventory = new Inventory(itemToStore);
-    }
     
      public Inventory getInventory() {
         return inventory;
@@ -36,23 +30,6 @@ public class Slot {
 
     public void decrementQtyStored() {
         quantityStored--;
-    }
-
-    public void setQuantityStored(int quantityStored) {
-        this.quantityStored = quantityStored;
-
-        if(quantityStored > this.quantityStored) {
-            int diff = this.quantityStored - quantityStored;
-            inventory.registerRestock(diff);
-        }
-    }
-
-    public void setItemInSlot(Item itemInSlot) {
-        Item compare = this.itemInSlot;
-        this.itemInSlot = itemInSlot;
-
-        if(!itemInSlot.equals(compare))
-            inventory = new Inventory(itemInSlot);
     }
 
     public void restockItem(int qty) {

@@ -31,8 +31,7 @@ public class CashRegister{
         int currentQty = money.get(key);
         money.put(key, currentQty + qty);
     }
-    public void deductChangeFromMoney(){ 
-        
+    public void deductChangeFromMoney(){       
         deductBill(1, denominations.get(1));
         deductBill(5, denominations.get(5));
         deductBill(10, denominations.get(10));
@@ -63,26 +62,9 @@ public class CashRegister{
         qty[7] += money.get(500);
         qty[8] += money.get(1000);
 
-        return qty;
-        
+        return qty;     
     }
     
-    /*public int[] getChangeQty(){
-        int[] qty = new int[9];
-
-        qty[0] += money.get(1);
-        qty[1] += money.get(5);
-        qty[2] += money.get(10);
-        qty[3] += money.get(20);
-        qty[4] += money.get(50);
-        qty[5] += money.get(100);
-        qty[6] += money.get(200);
-        qty[7] += money.get(500);
-        qty[8] += money.get(1000);
-
-        return qty;
-        
-    }*/
     public boolean isMoneyQtyValid(int qty){
         if (qty < 0)
             return false;
@@ -159,8 +141,6 @@ public class CashRegister{
     // this class updates the hashmap denominations
     public void computeFinalDenominations(int subtotal, int amountInserted){
         int change = amountInserted - subtotal;
-        //what if the user inserts less?? = call boolean is
-        //get denominations, check money hash
         HashMap<Integer, Integer> originalMoney = money;
         getDenominationStartingFrom(1000, change);   
         if (!isChangeEnough(subtotal,amountInserted))
@@ -183,7 +163,6 @@ public class CashRegister{
             resetDenominations();
             money = originalMoney;
         }
-        //displayTotalChange();
     }
 
     //resets all denominations to zero; used after completing a purchase
@@ -253,21 +232,15 @@ public class CashRegister{
 
     //displays the total change
     public void dispenseTotalChange(){
-            displayBillDenomination(1, denominations.get(1));
-            displayBillDenomination(5, denominations.get(5));
-            displayBillDenomination(10, denominations.get(10));
-            displayBillDenomination(20, denominations.get(20));
-            displayBillDenomination(50, denominations.get(50));
-            displayBillDenomination(100, denominations.get(100));
-            displayBillDenomination(200, denominations.get(200));
-            displayBillDenomination(500, denominations.get(500));
-            displayBillDenomination(1000, denominations.get(1000));
-        
-           
-
-        //decrement
-        //add total to money, subtract denominations from
-        
+        displayBillDenomination(1, denominations.get(1));
+        displayBillDenomination(5, denominations.get(5));
+        displayBillDenomination(10, denominations.get(10));
+        displayBillDenomination(20, denominations.get(20));
+        displayBillDenomination(50, denominations.get(50));
+        displayBillDenomination(100, denominations.get(100));
+        displayBillDenomination(200, denominations.get(200));
+        displayBillDenomination(500, denominations.get(500));
+        displayBillDenomination(1000, denominations.get(1000));
     }
     public void displayAmount(int[] amount){
         displayBillDenomination(1, amount[0]);

@@ -9,7 +9,7 @@ public class RegularVM {
         slots = new Slot[NUM_SLOTS];
         cashReg = new CashRegister();
     }
-    // denominations inserted,
+
     public void processPurchase(int[] moneyInserted, int slotIndex){
         Item item = getSlotItem(slotIndex);
         int insertedAmnt = cashReg.computeInsertedAmount(moneyInserted);
@@ -20,11 +20,10 @@ public class RegularVM {
         }
         else if (cashReg.computeTotalChange()>0 && insertedAmnt > 0)
         {
-            cashReg.addMoney(moneyInserted);    //WORKING
-            dispenseItem(slotIndex);    //WORKING
-            cashReg.dispenseTotalChange();  //WORKING
-            cashReg.deductChangeFromMoney();      //WORKING
-            //add the inserted to money, subtract denomination from money
+            cashReg.addMoney(moneyInserted);   
+            dispenseItem(slotIndex);   
+            cashReg.dispenseTotalChange();  
+            cashReg.deductChangeFromMoney();    
             System.out.println("Total Change: PHP" + cashReg.computeTotalChange());
         }
         else if (insertedAmnt == (int)item.getPrice()){
@@ -33,14 +32,6 @@ public class RegularVM {
         else{
             System.out.println("Change not enough, dispensing inserted amount...");
             cashReg.displayAmount(moneyInserted);
-        }
-    }
-
-    public void purchaseItem(int index) {
-        if(index <= slots.length && slots[index] != null && !slots[index].isEmpty()) {
-            slots[index].decrementQtyStored();
-            slots[index].getInventory().incrementQtySold();
-            System.out.println(slots[index].getItemInfo());
         }
     }
 
@@ -54,8 +45,7 @@ public class RegularVM {
             return true;
         else if(slotToCheck.isEmpty())
             return true;
-        return slotToCheck.isEmpty();
-            
+        return slotToCheck.isEmpty();     
     }
 
     public boolean isSlotNumValid(int number){
@@ -63,7 +53,6 @@ public class RegularVM {
             return false;
         return true;
     }
-
 
     public void dispenseItem(int slotIndex) {
         if(slotIndex <= slots.length && slots[slotIndex] != null) {
@@ -79,17 +68,6 @@ public class RegularVM {
         cashReg.addMoney(denominations);
     }
 
-    public void swapSlotItems(int index1, int index2) {
-        Item temp = null;
-
-        if(index1 <= slots.length && slots[index1] != null &&
-           index2 <= slots.length && slots[index2] != null) {
-            temp = slots[index1].getItemInSlot();
-            slots[index1].setItemInSlot(slots[index2].getItemInSlot());
-            slots[index2].setItemInSlot(temp);
-        }
-    }
-
     public Item getSlotItem(int slotIndex) {
         if(slotIndex <= slots.length) {
             Slot slot = slots[slotIndex];
@@ -97,17 +75,6 @@ public class RegularVM {
         }
         else
             return null;
-    }
-
-    public void setItemQuantity(int index, int quantity) {
-        if(index <= slots.length && slots[index] != null && quantity <= 10) {
-            slots[index].setQuantityStored(quantity);
-
-            if(slots[index].getQuantityStored() < quantity) {
-                int diff = quantity - slots[index].getQuantityStored();
-                slots[index].getInventory().registerRestock(diff);
-            }
-        }
     }
     
     public void restockSlot(int index, int qty) {
@@ -127,7 +94,6 @@ public class RegularVM {
             
         return false;
     }
-
 
     public void displaySlots() {
         int i = 1;
@@ -155,7 +121,6 @@ public class RegularVM {
     }
     public void displayMoneyQty(){
         int[] moneyQty = cashReg.getMoneyQty();
-
         System.out.println("--MONEY STORED--");
         System.out.println("1 peso coins: " + moneyQty[0]);
         System.out.println("5 peso coins: " + moneyQty[1]);
@@ -176,7 +141,6 @@ public class RegularVM {
         }
         else
             return false;
-
     }
 
     public void displayAllInvInfo() {
