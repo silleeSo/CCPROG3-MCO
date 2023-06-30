@@ -38,7 +38,10 @@ public class Driver {
                     factory.createRegularVM();
                     break;
                 case 2:
-                    factory.testVM();
+                    if (factory.regularVM == null)
+                        System.out.println("No vending machine to test..");
+                    else
+                        factory.testVM();
                     break;
                 default:
                     break;
@@ -77,6 +80,8 @@ public class Driver {
             System.out.println("Enter any number to continue...");
             slotNum = keypad.nextInt();   
         }
+        if (input == 0)
+            regularVM = null;
     }
   
      //TO DO: IMPLEMENT testVM()
