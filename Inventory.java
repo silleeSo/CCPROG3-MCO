@@ -36,14 +36,13 @@ public class Inventory {
         String itemName = "Item name: " + item.getName() + "\n";
         String qtyAdded = "Restock amount: " + this.qtyAdded + "\n";
         String qtyStart = "Amount before restocking: " + qtyStartInv + "\n";
-        String qtyEnd = "Amount after restocking: " + qtyEndInv + "\n";
+        String qtyEnd = "Amount after restocking: " + (qtyEndInv+qtySold) + "\n";
+        String qtyCurr = "Current stock: " + qtyEndInv + "\n";
 
-        return itemName + qtyAdded + qtyStart + qtyEnd;
+        return itemName + qtyAdded + qtyStart + qtyEnd + qtyCurr;
     }
 
     public String getQtySold() {
-        //PAKI DEBUG, MALI UNG PROFITS HEHE TY
-
         double profit = qtySold * item.getPrice();
 
         String itemName = "Item name: " + item.getName() + "\n";
