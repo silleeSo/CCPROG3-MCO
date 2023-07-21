@@ -33,7 +33,7 @@ public class RegularVM {
             cashReg.addMoney(moneyInserted);   
             dispenseItem(slotIndex);   
             cashReg.dispenseTotalChange();  
-            cashReg.deductChangeFromMoney();    
+            //cashReg.deductChangeFromMoney();   no need, since nagmiminus na sa computeFinalDeno 
             System.out.println("Total Change: PHP" + cashReg.computeTotalChange());
         }
         else if (insertedAmnt == (int)item.getPrice()){
