@@ -3,17 +3,21 @@
  * @author So, Chrysille
  * @author Chen, Abraham
  */
+import java.util.ArrayList;
 public class Slot {
     private final int QUANTITY_LIMIT;
     private int quantityStored;
-    private Item itemInSlot;
+    private String itemName;
+    private double itemPrice;
+    private double itemCalories;
     private Inventory inventory;
+    private ArrayList<Item> itemsInSlot;
     /**
      * This method creates an instance of Slot. If the quantity passed is greater than 10, quantityStored is automatically set to 10. If quantity passed is negative, quantityStored is automatically set to 0. Otherwise, quantity passed is copied to quantityStored. 
      * @param itemToStore the item to be stored in this Slot
      * @param quantityStored the quantity passed
      */
-    public Slot(Item itemToStore, int quantityStored) {
+    public Slot(String itemName, double itemPrice, double itemCalories, int quantityStored) {
         QUANTITY_LIMIT = 10;
         if(quantityStored > 10)
             this.quantityStored = 10;
@@ -21,9 +25,16 @@ public class Slot {
             this.quantityStored = 0;
         else
             this.quantityStored = quantityStored;
-        this.itemInSlot = itemToStore;
-        this.inventory = new Inventory(itemToStore);
-        inventory.registerRestock(quantityStored);
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.itemCalories = itemCalories;
+        this.inventory = new Inventory(itemName, itemPrice);
+        inventory.registerRestock(quantityStored);//update in transactions
+
+        //initialize arrayList
+        itemsInSlot = new ArrayList<Item>();
+        for (int i = 0; i < quantityStored;i++)
+            itemsInSlot.add(new Item(itemName,itemPrice, itemCalories));
     }
     /**
      * This method returns the Inventory of this slot.
@@ -43,19 +54,28 @@ public class Slot {
      * This method returns the item stored in this Slot
      * @return the item stored in slot
      */
-    public Item getItemInSlot() {
-        return itemInSlot;
+    public String getItemNameInSlot() {
+        return itemName;
+    }
+    public double getItemPriceInSlot() {
+        return itemPrice;
+    }
+    public double getItemCaloriesInSlot() {
+        return itemCalories;
     }
     /**
      * This method decrements the quantity of item stored in this Slot
      */
     public void decrementQtyStored() {
         quantityStored--;
+        itemsInSlot.remove(0);
+        //simulates the first item in slot falling out of the slot 
     }
     /**
      * This method adds to the quantity stored in this Slot. If quantity exceeds slot limit, quantity stored is set to 10 by default.
      * @param qty the quantity to add
      */
+    //need to test
     public void restockItem(int qty) {
         int total = qty + quantityStored;
         if (!isFull() && total <= QUANTITY_LIMIT){
@@ -65,19 +85,25 @@ public class Slot {
         }
         else {
             qty = 10 - quantityStored;
+            quantityStored = QUANTITY_LIMIT;
             inventory.registerRestock(qty);
         }
+        for (int i = 0; i < qty; i++)
+                itemsInSlot.add(new Item(itemName, itemPrice, itemCalories));
     }
     /**
      * This method replces the item stored in this slot
      * @param item the new item to replace the current one
      */
-    public void replaceItem(Item item) {
+    public void replaceItem(String name, double price, double calories) {
 
-        if(!itemInSlot.equals(item)) {
+        if(!itemName.equals(name)) {
 
-            this.itemInSlot = item;
-            inventory = new Inventory(item);
+            this.itemName = name;
+            this.itemPrice = price;
+            this.itemCalories = calories;
+            inventory = null;
+            inventory = new Inventory(name, price);
         }
     }
     /**
@@ -94,7 +120,7 @@ public class Slot {
      * @return true if quantity stored is equal to 0, false if not
      */
     public boolean isEmpty() {
-        if (itemInSlot == null || quantityStored == 0)
+        if (itemName == null || quantityStored == 0)
             return true;
         return false;
     }
@@ -105,9 +131,9 @@ public class Slot {
      * @return String containing item name, calorie count, price, and quantity
      */
     public String toString() {
-        String item = "Item: " + itemInSlot.getName() + "\n";
-        String calories = "Calories: " + itemInSlot.getCalories() + "\n";
-        String price = "Price: " + itemInSlot.getPrice() + "\n";
+        String item = "Item: " + itemName + "\n";
+        String calories = "Calories: " + itemCalories + "\n";
+        String price = "Price: " + itemPrice + "\n";
         String quantity = "Quantity: " + quantityStored + "\n";
 
         return item + calories + price + quantity;
@@ -116,9 +142,10 @@ public class Slot {
      * This method returns the string containing item information stored in this slot
      * @return  string containing item information
      */
+    /* 
     public String getItemInfo() {
         return itemInSlot.toString();
-    }
+    }*/
     /**
      * This method returns the string containing slot inventory information
      * @return string containing slot inventory information

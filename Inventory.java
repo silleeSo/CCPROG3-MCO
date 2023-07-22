@@ -4,7 +4,8 @@
  * @author Chen, Abraham
  */
 public class Inventory {
-    private Item item;
+    private String itemName;
+    private double itemPrice;
     private int qtyStartInv;
     private int qtyEndInv;
     private int qtyAdded;
@@ -13,8 +14,9 @@ public class Inventory {
      * This method creates an instance of Inventory. It sets the item attribute to the item passed and sets the rest of the attributes to 0
      * @param item the item to copy to this.item
      */
-    public Inventory(Item item) {
-        this.item = item;
+    public Inventory(String itemName, double itemPrice) {
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
         this.qtyAdded = 0;
         this.qtyStartInv = 0;
         this.qtyEndInv = 0;
@@ -52,26 +54,26 @@ public class Inventory {
      * @return the Sting containing item name, quantity added, quantity before restock, quantity after restock, and current quantity in stock
      */
     public String toString() {
-        String itemName = "Item name: " + item.getName() + "\n";
+        String name = "Item name: " + itemName + "\n";
         String qtyAdded = "Restock amount: " + this.qtyAdded + "\n";
         String qtyStart = "Amount before restocking: " + qtyStartInv + "\n";
         String qtyEnd = "Amount after restocking: " + (qtyEndInv+qtySold) + "\n";
         String qtyCurr = "Current stock: " + qtyEndInv + "\n";
 
-        return itemName + qtyAdded + qtyStart + qtyEnd + qtyCurr;
+        return name + qtyAdded + qtyStart + qtyEnd + qtyCurr;
     }
     /**
      * This method returns a String containing transaction history since last restock
      * @return a String containing item name, item price, quantity sold since last restock, and amount collected since last restock
      */
     public String getQtySold() {
-        double profit = qtySold * item.getPrice();
+        double profit = qtySold * itemPrice;
 
-        String itemName = "Item name: " + item.getName() + "\n";
-        String itemPrice = "Price: " + item.getPrice() + "\n";
+        String name = "Item name: " + itemName + "\n";
+        String price = "Price: " + itemPrice + "\n";
         String qtySold = "Total quantity sold: " + this.qtySold + "\n";
         String amountCollected = "Amount collected since last restock: " + profit + "\n";
 
-        return itemName + itemPrice + qtySold + amountCollected;
+        return name + price + qtySold + amountCollected;
     }
 }
