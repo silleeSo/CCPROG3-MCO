@@ -6,7 +6,6 @@
 public class Inventory {
     private String itemName;
     private double itemPrice;
-    private int qtyStartInv;
     private int qtyEndInv;
     private int qtyAdded;
     private int qtySold;
@@ -18,7 +17,6 @@ public class Inventory {
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.qtyAdded = 0;
-        this.qtyStartInv = 0;
         this.qtyEndInv = 0;
         this.qtySold = 0;
     }
@@ -27,13 +25,9 @@ public class Inventory {
      * @param qty the quantity of restock
      */
     public void registerRestock(int qty) {
-        if (qty!=0){
-            qtyStartInv = qtyEndInv;
-            qtyEndInv += qty;
-            qtyAdded = qty;
-            qtySold = 0;
-        }
-        
+        qtyEndInv += qty;
+        qtyAdded = qty;
+        qtySold = 0;
     }
     /**
      * This method decrements the attribute containing the quantity at the end of a restock.
@@ -55,25 +49,16 @@ public class Inventory {
      */
     public String toString() {
         String name = "Item name: " + itemName + "\n";
+        String price = "Price: " + itemPrice + "\n";
         String qtyAdded = "Restock amount: " + this.qtyAdded + "\n";
-        String qtyStart = "Amount before restocking: " + qtyStartInv + "\n";
+        //String qtyStart = "Amount before restocking: " + qtyStartInv + "\n";
         String qtyEnd = "Amount after restocking: " + (qtyEndInv+qtySold) + "\n";
         String qtyCurr = "Current stock: " + qtyEndInv + "\n";
-
-        return name + qtyAdded + qtyStart + qtyEnd + qtyCurr;
-    }
-    /**
-     * This method returns a String containing transaction history since last restock
-     * @return a String containing item name, item price, quantity sold since last restock, and amount collected since last restock
-     */
-    public String getQtySold() {
         double profit = qtySold * itemPrice;
-
-        String name = "Item name: " + itemName + "\n";
-        String price = "Price: " + itemPrice + "\n";
+        
         String qtySold = "Total quantity sold: " + this.qtySold + "\n";
         String amountCollected = "Amount collected since last restock: " + profit + "\n";
 
-        return name + price + qtySold + amountCollected;
+        return name + price + qtyAdded + qtyEnd + qtyCurr + qtySold + amountCollected;
     }
 }

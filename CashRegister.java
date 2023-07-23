@@ -17,6 +17,7 @@ public class CashRegister{
     public CashRegister(){
         moneyTally = new HashMap<>();
         denominationsTally = new HashMap<>();
+        money = new ArrayList<Money>();
 
         clearCashRegister();
         resetDenominations();
@@ -294,15 +295,15 @@ public class CashRegister{
     public String toStringBillDenomination(double key, int qty){
         if (qty > 0)
             return "Dispensing " + qty + " * " + key + " pesos...\n";
-        return null;
+        return "";
     }
 
     /**
      * This method displays the total change after a purchase.
      */
     public String dispenseTotalChange(){
-        String finalStr;
-        finalStr = toStringBillDenomination(1, denominationsTally.get(1));
+        String finalStr = "";
+        finalStr += toStringBillDenomination(1, denominationsTally.get(1));
         finalStr += toStringBillDenomination(5, denominationsTally.get(5));
         finalStr += toStringBillDenomination(10, denominationsTally.get(10));
         finalStr += toStringBillDenomination(20, denominationsTally.get(20));

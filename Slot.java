@@ -142,22 +142,16 @@ public class Slot {
      * This method returns the string containing item information stored in this slot
      * @return  string containing item information
      */
-    /* 
+    
     public String getItemInfo() {
+        Item itemInSlot = new Item(itemName, itemPrice, itemCalories);
         return itemInSlot.toString();
-    }*/
+    }
     /**
      * This method returns the string containing slot inventory information
      * @return string containing slot inventory information
      */
     public String getInvInfo() {
         return getInventory().toString();
-    }
-    /**
-     * This method returns the string containing transaction history for this slot
-     * @return string containing transaction history
-     */
-    public String getInvQtySold() {
-        return getInventory().getQtySold();
     }
 }
