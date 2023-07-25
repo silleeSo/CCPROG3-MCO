@@ -367,4 +367,11 @@ public class CashRegister{
         }
         return false;
     }
+    public boolean gatherMoney (int amount){
+        computeChangeDenomination(amount, 0, 8);
+        if(computeTotalChange()>0)
+            return true;
+        return false;
+
+    }
 }

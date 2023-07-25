@@ -182,6 +182,12 @@ public class RegularVM {
         cashReg.collectMoney(qty);
         return cashReg.toStringAmount(qty) + "\nDispensed Amount.";
     }
+    //alternative to using an int array
+    public String collectMoney(int amount){
+        if (cashReg.gatherMoney(amount))
+            return cashReg.dispenseTotalChange();
+        return "Not enough money in vending machine.";
+    }
     /**
      * This method displays the money stored in the CashRegister of this RegularVM. It specifies the kind of bill or coin and their quantities.
      */
