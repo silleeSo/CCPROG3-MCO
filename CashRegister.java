@@ -211,7 +211,22 @@ public class CashRegister{
             else if (i == qty)
                 break;
          }
+         for (int j = 0; j < qty; j ++){
+            int index = searchMoney(key);
+            money.remove(index);
+        }
             
+    }
+    //NEW
+    public int searchMoney(double moneyValue){
+        int i = 0;
+        for (Money currMoney : money){
+            if (currMoney.getValue() == moneyValue){
+                return i;
+            }
+            i++;
+        }
+        return -1;
     }
     /**
      * This method returns an integer array containing the quantity of each type of bill and coin stored in money HashMap
@@ -331,6 +346,25 @@ public class CashRegister{
         finalStr += toStringBillDenomination(1000, amount[8]);
         return finalStr;
     }
-    
-    
+    //NEW
+    public boolean collectMoney(int[] qty){
+        boolean isEnough = true;
+        int[] currMoneyStored = getMoneyQty();
+        for (int i = 0; i < 9 && isEnough; i++)
+            if (currMoneyStored[i]<qty[i])
+                isEnough = false;
+        if (isEnough){
+            moneyTally.put(1, currMoneyStored[0]-qty[0]);
+            moneyTally.put(5, currMoneyStored[1]-qty[1]);
+            moneyTally.put(10, currMoneyStored[2]-qty[2]);
+            moneyTally.put(20, currMoneyStored[3]-qty[3]);
+            moneyTally.put(50, currMoneyStored[4]-qty[4]);
+            moneyTally.put(100, currMoneyStored[5]-qty[5]);
+            moneyTally.put(200, currMoneyStored[6]-qty[6]);
+            moneyTally.put(500, currMoneyStored[7]-qty[7]);
+            moneyTally.put(1000, currMoneyStored[8]-qty[8]);
+            return true;
+        }
+        return false;
+    }
 }

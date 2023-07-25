@@ -3,10 +3,13 @@
  * @author So, Chrysille
  * @author Chen, Abraham
  */
+import java.util.ArrayList;
 public class RegularVM {
     private final int NUM_SLOTS;
     private Slot[] slots;
     private CashRegister cashReg;
+    private ArrayList<Item> itemPool;
+    
     /**
      * This method creates an instance of RegularVM. It sets the NUM_SLOTS attribute to 8, instantiates the slots array, and creates an instance of CashRegister for this instance of RegularVM
      */
@@ -198,10 +201,11 @@ public class RegularVM {
      * @param item the new item that replaces to current one
      * @return true if replacement was successful, false if it is not
      */
-    public boolean replaceItemInSlot(int index, Item item) {
-        Slot slot = slots[index];
+    public boolean replaceItemInSlot(int slotIndex, int itemPoolIndex) {
+        Slot slot = slots[slotIndex];
+        Item item = itemPool.get(itemPoolIndex);
         if (slot!=null && slot.isEmpty()){
-             slots[index].replaceItem(item.getName(), item.getPrice(), item.getCalories());
+             slots[slotIndex].replaceItem(item.getName(), item.getPrice(), item.getCalories());
              return true;
         }
         else
@@ -226,5 +230,23 @@ public class RegularVM {
             if(slot != null)
                 finalStr += slot.getInvInfo() + "\n";
         return finalStr;
+    }
+    /*
+     * fix replace item (limited to item pool)
+     * add method for create new it4em in it4em pool
+     * initialize item pool
+     * 
+     */
+    public void initializeItemPool(){
+        itemPool.add(new Item("Sausage",15,55));
+        itemPool.add(new Item("Fried Egg",15,20));
+        itemPool.add(new Item("Asado Pork",40,105));
+        itemPool.add(new Item("Beef Brisket",40,70));
+        itemPool.add(new Item("Chicken Leg",50,75));
+        itemPool.add(new Item("Duck Leg", 65,80));
+        itemPool.add(new Item("Vegtable Side",60,45));
+    }
+    public void createNewItem(String itemName, double price, double calories){
+        itemPool.add(new Item(itemName, price, calories));
     }
 }

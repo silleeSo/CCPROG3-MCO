@@ -1,0 +1,22 @@
+TO-DO REVISIONS (MONDAY)
+1. Item pool (in RegularVM? Or somewhere else?)
+2. Give user freedom to add to item pool (item pool should now be ArrayList)
+**pwede naman magswap ng item, base info off of item pool info
+**bawal slot as param, dapat slot num
+TO-DO MCO2
+1. Special vending machine (TUES)
+    Extra methods: 
+    - compute cost (tas send the amount to computeChangeDeno)
+2. Interface (Vending Machines) (TUES/WED)
+    - processPurchase (yeah kasi may custom compute cost ka e for SpecialVM)
+        **dapat the user can select multiple items too wtf, so make array?????????
+    - Dispense item (needed pa ba process purchase lolol, sure na need ito)
+    - replaceItemInSlot(idfk)
+    - check nalang iba
+3. VM Factory (THURS)
+    - Purchase Machine
+    - Test machine (how will u do this)
+        **access the vm methods??
+    - if done purchasing, send to driver??????
+4. Driver??? need pa ba... (FRI)
+    
