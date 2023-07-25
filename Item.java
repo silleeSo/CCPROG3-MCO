@@ -7,6 +7,7 @@ public class Item {
     private String name;
     private double price;
     private double calorieCount;
+    private boolean isSoldAlone;
 
     /**
      * This method creates an instance of Item.
@@ -18,6 +19,13 @@ public class Item {
         this.name = name;
         this.price = price;
         this.calorieCount = calorieCount;
+        isSoldAlone = true;
+    }
+    public Item(String name, double price, double calorieCount, boolean isSoldAlone){
+        this.name = name;
+        this.price = price;
+        this.calorieCount = calorieCount;
+        this.isSoldAlone = isSoldAlone;
     }
     /**
      * This method returns the name of this item
