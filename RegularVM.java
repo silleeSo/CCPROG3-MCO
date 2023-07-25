@@ -174,9 +174,13 @@ public class RegularVM {
     /**
      * This method collects all money stored in the CashRegister of this instance of RegularVM. It clears the CashRegister and dispenses it.
      */
-    public String collectMoney(){
+    public String collectAllMoney(){
         cashReg.clearCashRegister();
         return cashReg.toStringAmount(cashReg.getMoneyQty()) + "\nCash Register is now empty.";
+    }
+    public String collectMoney(int[] qty){
+        cashReg.collectMoney(qty);
+        return cashReg.toStringAmount(qty) + "\nDispensed Amount.";
     }
     /**
      * This method displays the money stored in the CashRegister of this RegularVM. It specifies the kind of bill or coin and their quantities.
