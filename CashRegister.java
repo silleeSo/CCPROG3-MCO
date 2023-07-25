@@ -374,4 +374,22 @@ public class CashRegister{
         return false;
 
     }
+    public void updateMoneyTally(HashMap<Integer,Integer> tally){
+        moneyTally = tally;
+    }
+    public void updateDenominationsTally(HashMap<Integer,Integer> tally){
+        denominationsTally = tally;
+    }
+    public void updateMoney(ArrayList<Money>money){
+        this.money = money;
+    }
+    public HashMap<Integer,Integer> getMoneyTally(){
+        return moneyTally;
+    }
+    public HashMap<Integer,Integer> getDenoTally(){
+        return denominationsTally;
+    }
+    public ArrayList<Money> getMoney (){
+        return money;
+    }
 }
