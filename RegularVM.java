@@ -1,7 +1,8 @@
 public class RegularVM extends VendingMachine{
-    public RegularVM(int numSlots){
-        super(numSlots);
+    public RegularVM(int numSlots, int slotCapacity){
+        super(numSlots, slotCapacity);
     }
+    
     /**
      * This method process the purchase of the user.
      * @param moneyInserted the integer array containing the quantities of each type of bill and coin the user has inserted

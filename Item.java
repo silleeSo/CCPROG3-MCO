@@ -8,6 +8,7 @@ public class Item {
     private double price;
     private double calorieCount;
     private boolean isSoldAlone;
+    private String preparation;
 
     /**
      * This method creates an instance of Item.
@@ -20,12 +21,14 @@ public class Item {
         this.price = price;
         this.calorieCount = calorieCount;
         isSoldAlone = true;
+        preparation = null;
     }
-    public Item(String name, double price, double calorieCount, boolean isSoldAlone){
+    public Item(String name, double price, double calorieCount, boolean isSoldAlone, String preparation){
         this.name = name;
         this.price = price;
         this.calorieCount = calorieCount;
         this.isSoldAlone = isSoldAlone;
+        this.preparation = preparation;
     }
     /**
      * This method returns the name of this item
@@ -41,6 +44,12 @@ public class Item {
     public double getPrice() {
         return price;
     }
+    public void setPrice(double price){
+        this.price = price;
+    }
+    public String getPreparation(){
+        return preparation;
+    }
     /**
      * This method returns the calorie count of this item
      * @return the calorieCount attribute
@@ -48,7 +57,11 @@ public class Item {
     public double getCalories() {
         return calorieCount;
     }
+    public boolean getIsSoldAlone(){
+        return isSoldAlone;
+    }
     /**
+     * 
      * This method returns a String containing item information
      * @return String containing item name, item price, and item calorie count
      */

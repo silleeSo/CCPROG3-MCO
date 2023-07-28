@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-public class VendingMachine {
+abstract class VendingMachine {
     private final int NUM_SLOTS;
     private Slot[] slots;
     private CashRegister cashReg;
@@ -9,10 +9,12 @@ public class VendingMachine {
     /**
      * This method creates an instance of RegularVM. It sets the NUM_SLOTS attribute to 8, instantiates the slots array, and creates an instance of CashRegister for this instance of RegularVM
      */
-    public VendingMachine(int numSlots) {
+    public VendingMachine(int numSlots, int slotCapacity) {
         NUM_SLOTS = numSlots;
         slots = new Slot[NUM_SLOTS];
         cashReg = new CashRegister();
+        for (Slot slot : slots)
+            slot = new Slot(slotCapacity);
     }
     /**
      * This method instantiates a slot from slots array in this instance of RegularVM. This is method is used during the initialization of a vending machine by user.
@@ -20,8 +22,9 @@ public class VendingMachine {
      * @param item the item to add to the selected slot
      * @param qty the quantity of the item to add
      */
-    public void initializeSlot(int index, String name, double price, double calories, int qty) {
-        slots[index] = new Slot(name, price, calories, qty);
+    public void updateSlot(int index, String name, double price, double calories, int qty) {
+        
+        slots[index].updateSlot(name, price, calories, qty);
     }
     /**
      * This method checks if a specific slot is empty using the slot index. It returns true if it is empty and false if it is not.
@@ -30,10 +33,6 @@ public class VendingMachine {
      */
     public boolean isSlotEmpty(int index){
         Slot slotToCheck = slots[index];
-        if (slotToCheck == null)
-            return true;
-        else if(slotToCheck.isEmpty())
-            return true;
         return slotToCheck.isEmpty();     
     }
     /**
@@ -220,16 +219,33 @@ public class VendingMachine {
      * 
      */
     public void initializeItemPool(){
-        itemPool.add(new Item("Sausage",15,55));
-        itemPool.add(new Item("Fried Egg",15,20));
-        itemPool.add(new Item("Asado Pork",40,105));
-        itemPool.add(new Item("Beef Brisket",40,70));
-        itemPool.add(new Item("Chicken Leg",50,75));
-        itemPool.add(new Item("Duck Leg", 65,80));
-        itemPool.add(new Item("Vegtable Side",60,45));
+        itemPool.add(new Item("Sausage",15,55, true, "frying"));
+        itemPool.add(new Item("Fried Egg",15,20, true, "frying"));
+        itemPool.add(new Item("Asado Pork",40,105, false, "simmering"));
+        itemPool.add(new Item("Beef Brisket",40,70, false, "boiling"));
+        itemPool.add(new Item("Chicken Leg",50,75, true, "marinating"));
+        itemPool.add(new Item("Duck Leg", 65,80, true, "marinating"));
+        itemPool.add(new Item("Vegtables",60,45, false, "chopping"));
+        itemPool.add(new Item("Noodle base",60,45, true, "blanching and seasoning"));
     }
-    public void createNewItem(String itemName, double price, double calories){
-        itemPool.add(new Item(itemName, price, calories));
+    
+    public boolean createNewItem(String itemName, double price, double calories, boolean isSoldAlone, String preparations){
+        Item item = new Item(itemName, price, calories, isSoldAlone, preparations);
+        if (!isItemDuplicate(item)){
+            itemPool.add(new Item(itemName, price, calories));
+            return true;
+        }
+        return false;
+            
+    }
+    public boolean repriceItem(double newPrice, int slotIndex){
+        if (newPrice == Math.floor(newPrice) && newPrice >= 0){//checks if newPrice has centavoes
+            slots[slotIndex].setItemPrice(newPrice);
+            return true;
+        }
+            return false;
+            
+        
     }
     public void updateCashRegister(HashMap<Integer,Integer> moneyTally, HashMap<Integer, Integer> denominationsTally, ArrayList<Money> money){
         cashReg.updateMoneyTally(moneyTally);

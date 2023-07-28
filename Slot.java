@@ -17,8 +17,14 @@ public class Slot {
      * @param itemToStore the item to be stored in this Slot
      * @param quantityStored the quantity passed
      */
-    public Slot(String itemName, double itemPrice, double itemCalories, int quantityStored) {
-        QUANTITY_LIMIT = 10;
+    public Slot(int slotCapacity){
+        QUANTITY_LIMIT = slotCapacity;
+        this.inventory = new Inventory(itemName, itemPrice);
+        itemsInSlot = new ArrayList<Item>();
+
+    }
+    public void updateSlot(String itemName, double itemPrice, double itemCalories, int quantityStored) {
+        
         if(quantityStored > 10)
             this.quantityStored = 10;
         else if (quantityStored < 0)
@@ -28,11 +34,11 @@ public class Slot {
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.itemCalories = itemCalories;
-        this.inventory = new Inventory(itemName, itemPrice);
+
         inventory.registerRestock(quantityStored);//update in transactions
 
         //initialize arrayList
-        itemsInSlot = new ArrayList<Item>();
+       
         for (int i = 0; i < quantityStored;i++)
             itemsInSlot.add(new Item(itemName,itemPrice, itemCalories));
     }
@@ -153,5 +159,11 @@ public class Slot {
      */
     public String getInvInfo() {
         return getInventory().toString();
+    }
+    public void setItemPrice(double price){
+        itemPrice = price;
+        for (Item item : itemsInSlot){
+            item.setPrice(price);
+        }
     }
 }
