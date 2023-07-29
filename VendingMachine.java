@@ -66,6 +66,9 @@ abstract class VendingMachine {
     public void refillMoney(int[] denominations) {
         cashReg.addMoney(denominations);
     }
+    public void refillMoney(int moneyType, int qty) {
+        cashReg.addBill(moneyType, qty);
+    }
     /**
      * This method returns the item of a slot given the slot index.
      * @param slotIndex the given slot index
@@ -87,13 +90,20 @@ abstract class VendingMachine {
      * @param index the slot index of slot to restock
      * @param qty the quantity to add to the specified slot
      */
-    public void restockSlot(int index, int qty) {
-        for (int i = 0; i < NUM_SLOTS; i++){
-            if(i == index && slots[index] != null)
-                slots[i].restockItem(qty);
-            else
-                slots[i].restockItem(0);
-        }         
+    public boolean restockSlot(int index, int qty) {
+        int newTotal = slots[index].getQuantityStored() + qty;
+        if (newTotal > slotCapacity || slot[index].isFull ||  slots[index] == null) //exceed capacity or is full
+            return false;
+        else {
+            for (int i = 0; i < NUM_SLOTS; i++){
+                if(i == index)
+                    slots[i].restockItem(qty);
+                else
+                    slots[i].restockItem(0);
+            }         
+            return true;    //successful restock
+        }
+        
     }
     /**
      * This method checks if a given item already exists in this instance of vending machine.
@@ -251,6 +261,21 @@ abstract class VendingMachine {
         cashReg.updateMoneyTally(moneyTally);
         cashReg.updateDenominationsTally(denominationsTally);
         cashReg.updateMoney(money);
+    }
+    public boolean isSlotAssigned(int slotIndex){
+        if (slotIndex > NUM_SLOTS-1)
+            return false;
+        if (slots[slotIndex].isSlotAssigned())
+            return true;
+        else
+            return false;
+    }
+
+    public ArrayList<Item> getItemPool(){
+        return itemPool;
+    }
+    public boolean isNumberValid(int num){
+        return cashReg.isMoneyQtyValid(qty) && num == Math.floor(num);
     }
 }
 

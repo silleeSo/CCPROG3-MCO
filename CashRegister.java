@@ -147,6 +147,7 @@ public class CashRegister{
         money.clear();
     
     }
+
     /**
      * This method accepts an integer array containing quantity of all coins and bills and adds it to current qty stored in money HashMap
      * @param moneyQty the integer array containing the quantities all types of bills and coins

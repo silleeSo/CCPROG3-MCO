@@ -21,7 +21,16 @@ public class Slot {
         QUANTITY_LIMIT = slotCapacity;
         this.inventory = new Inventory(itemName, itemPrice);
         itemsInSlot = new ArrayList<Item>();
+        itemName = null;
+        itemPrice = null;
+        itemCalories = null;
 
+    }
+    public boolean isSlotAssigned(){
+        if (itemName == null)
+            return false;
+        else
+            return true;
     }
     public void updateSlot(String itemName, double itemPrice, double itemCalories, int quantityStored) {
         
@@ -85,17 +94,14 @@ public class Slot {
     public void restockItem(int qty) {
         int total = qty + quantityStored;
         if (!isFull() && total <= QUANTITY_LIMIT){
+            
             quantityStored = total;
             inventory.registerRestock(qty);
+            for (int i = 0; i < qty; i++)
+                itemsInSlot.add(new Item(itemName, itemPrice, itemCalories));
             
         }
-        else {
-            qty = 10 - quantityStored;
-            quantityStored = QUANTITY_LIMIT;
-            inventory.registerRestock(qty);
-        }
-        for (int i = 0; i < qty; i++)
-                itemsInSlot.add(new Item(itemName, itemPrice, itemCalories));
+        
     }
     /**
      * This method replces the item stored in this slot
