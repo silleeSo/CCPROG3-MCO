@@ -130,15 +130,15 @@ public class Slot {
      * @param price the price of the new item
      * @param calories the calorie count of the new item
      */
-    public void replaceItem(String name, double price, double calories) {
+    public void replaceItem(Item item) {
+        String newItemName = item.getName();
+        if(!itemName.equals(newItemName)) {
 
-        if(!itemName.equals(name)) {
-
-            this.itemName = name;
-            this.itemPrice = price;
-            this.itemCalories = calories;
+            itemName = newItemName;
+            itemPrice = item.getPrice();
+            itemCalories = item.getCalories();
             inventory = null;
-            inventory = new Inventory(name, price);
+            inventory = new Inventory(item.getName(), item.getPrice());
         }
     }
     /**
